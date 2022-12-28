@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/top-rated_card.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/upcoming_card.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -30,7 +35,7 @@ class DashboardPage extends StatelessWidget {
       );
     }
 
-    // Drawer widget
+    // Drawer widget (drawer header, menu item)
     Widget drawer() {
       return Drawer(
         child: ListView(
@@ -97,46 +102,223 @@ class DashboardPage extends StatelessWidget {
       );
     }
 
+    // Now playing movie widget (movie title, 'more' button, now playing card)
+    Widget nowPlaying() {
+      return Container(
+        margin: EdgeInsets.symmetric(
+          vertical: defaultMargin,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Now playing header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Now Playing',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: medium,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    print('nowplaying');
+                  },
+                  child: Text(
+                    'More',
+                    style: grayTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: medium,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  NowPlayingCard(),
+                  NowPlayingCard(),
+                  NowPlayingCard(),
+                  NowPlayingCard(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Top rated movie widget (movie title, 'more' button, top rated movie card)
+    Widget topRated() {
+      return Container(
+        margin: EdgeInsets.only(
+          bottom: defaultMargin,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Top rated movie header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Top Rated Movie',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: medium,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    print('top rated movie');
+                  },
+                  child: Text(
+                    'More',
+                    style: grayTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: medium,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  TopRatedCard(),
+                  TopRatedCard(),
+                  TopRatedCard(),
+                  TopRatedCard(),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    // Popular movie widget (movie title, 'more' button, popular movie card)
+    Widget popularMovie() {
+      return Container(
+        margin: EdgeInsets.only(
+          bottom: defaultMargin,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Popular movie header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Popular Movie',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: medium,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    print('popular movie');
+                  },
+                  child: Text(
+                    'More',
+                    style: grayTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: medium,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  PopularCard(),
+                  PopularCard(),
+                  PopularCard(),
+                  PopularCard(),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    // Upcoming movie widget (movie title, 'more' button, upcoming movie card)
+    Widget upcomingMovie() {
+      return Container(
+        margin: EdgeInsets.only(
+          bottom: defaultMargin,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // upcoming movie header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Upcoming Movie',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: medium,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    print('upcoming movie');
+                  },
+                  child: Text(
+                    'More',
+                    style: grayTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: medium,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  UpcomingCard(),
+                  UpcomingCard(),
+                  UpcomingCard(),
+                  UpcomingCard(),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       drawer: drawer(),
       appBar: appBar(),
-      body: Center(
-        child: Text('Dashboard Page', style: blackTextStyle),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              nowPlaying(),
+              topRated(),
+              popularMovie(),
+              upcomingMovie(),
+            ],
+          ),
+        ),
       ),
     );
-  }
-}
-
-class MySearchDelegate extends SearchDelegate {
-  @override
-  Widget? buildLeading(BuildContext context) => IconButton(
-        onPressed: () => close(context, null),
-        icon: const Icon(Icons.arrow_back),
-      );
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        onPressed: () {
-          if (query.isEmpty) {
-            close(context, null);
-          } else {
-            query = '';
-          }
-        },
-        icon: const Icon(Icons.close),
-      )
-    ];
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return const SizedBox();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return const SizedBox();
   }
 }
