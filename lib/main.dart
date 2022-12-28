@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/pages/dashboard_page.dart';
+import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 import 'package:movieapp_javan_devtest/pages/splash-screen_page.dart';
 
 void main() => runApp(const MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreenPage(),
         '/dashboard': (context) => const DashboardPage(),
+        '/detail-movie': (context) => const DetailMoviePage(),
       },
       debugShowCheckedModeBanner: false,
       // // Device Preview // //

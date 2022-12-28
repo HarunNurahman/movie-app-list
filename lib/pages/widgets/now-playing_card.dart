@@ -7,7 +7,9 @@ class NowPlayingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed('/detail-movie');
+      },
       child: Container(
         margin: const EdgeInsets.only(top: 16, right: 16),
         width: 180,
