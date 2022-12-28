@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/pages/dashboard_page.dart';
 import 'package:movieapp_javan_devtest/pages/splash-screen_page.dart';
 
-// void main() => runApp(const MyApp());
+void main() => runApp(const MyApp());
 
-void main() => runApp(DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(),
-    ));
+// // Device Preview // //
+// void main() => runApp(DevicePreview(
+//       enabled: !kReleaseMode,
+//       builder: (context) => MyApp(),
+//     ));
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -22,8 +23,9 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardPage(),
       },
       debugShowCheckedModeBanner: false,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
+      // // Device Preview // //
+      // locale: DevicePreview.locale(context),
+      // builder: DevicePreview.appBuilder,
     );
   }
 }

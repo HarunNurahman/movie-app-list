@@ -15,7 +15,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   void initState() {
     Timer(
       const Duration(seconds: 3),
-      () => Navigator.pushNamed(context, '/dashboard'),
+        () => Navigator.of(context)
+            .pushNamedAndRemoveUntil('/dashboard', (route) => true)
     );
     super.initState();
   }
