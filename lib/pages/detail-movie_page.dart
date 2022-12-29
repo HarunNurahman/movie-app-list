@@ -8,31 +8,20 @@ class DetailMoviePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Header widget (thumbnail, movie title)
+    Widget header() {
+      return Container();
+    }
+
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Stack(
             children: [
-              Container(
-                height: 200,
-                width: double.infinity,
-                child: Image.asset(
-                  'assets/images/lotr-1.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Center(
-                child: Text(
-                  'The Lords of The Rings',
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 24,
-                    fontWeight: medium,
-                  ),
-                ),
-              )
+              header(),
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
