@@ -10,7 +10,7 @@ class DetailMoviePage extends StatefulWidget {
 }
 
 class _DetailMoviePageState extends State<DetailMoviePage> {
-  String youtubeUrl = 'https://www.youtube.com/watch?v=V75dMMIW2B4';
+  String youtubeUrl = 'V75dMMIW2B4';
 
   YoutubePlayerController? youtubeController;
 
@@ -114,6 +114,17 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                 child: YoutubePlayer(
                   controller: youtubeController!,
                   showVideoProgressIndicator: true,
+                  onReady: () => print('Ready'),
+                  bottomActions: [
+                    CurrentPosition(),
+                    ProgressBar(
+                      isExpanded: true,
+                      colors: ProgressBarColors(
+                        playedColor: Colors.amber,
+                        handleColor: Colors.amberAccent,
+                      ),
+                    )
+                  ],
                 ),
               )
             ],
