@@ -10,10 +10,22 @@ class DetailMoviePage extends StatefulWidget {
 }
 
 class _DetailMoviePageState extends State<DetailMoviePage> {
-  YoutubePlayerController? linkController;
+  String youtubeUrl = 'https://www.youtube.com/watch?v=V75dMMIW2B4';
+
+  YoutubePlayerController? youtubeController;
 
   @override
   void initState() {
+    youtubeController = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(youtubeUrl)!,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: true,
+        forceHD: true,
+        showLiveFullscreenButton: true,
+      ),
+    );
+
     super.initState();
   }
 
@@ -97,6 +109,13 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                 ),
               ),
               // Trailer video player
+              Container(
+                margin: EdgeInsets.only(top: defaultRadius),
+                child: YoutubePlayer(
+                  controller: youtubeController!,
+                  showVideoProgressIndicator: true,
+                ),
+              )
             ],
           ),
         );
@@ -114,17 +133,24 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
       );
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              backgroundThumbnail(),
-              bodyContent(),
-            ],
-          ),
+    return YoutubePlayerBuilder(
+        player: YoutubePlayer(
+          controller: youtubeController!,
         ),
-      ),
+        builder: (context, player) {
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Stack(
+                  children: [
+                    backgroundThumbnail(),
+                    bodyContent(),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
     );
   }
 }
