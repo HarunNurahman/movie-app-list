@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreenPage(),
         '/dashboard': (context) => const DashboardPage(),
-        '/detail-movie': (context) => const DetailMoviePage(),
+        '/detail-movie': (context) => DetailMoviePage(),
       },
       debugShowCheckedModeBanner: false,
       // // Device Preview // //

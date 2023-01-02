@@ -7,9 +7,9 @@ Color whiteColor = const Color(0xFFFFFFFF);
 Color grayColor = const Color(0xFFC2C2C2);
 
 // Text Style List w/ Fonts
-TextStyle blackTextStyle = GoogleFonts.roboto(color: blackColor);
-TextStyle whiteTextStyle = GoogleFonts.roboto(color: whiteColor);
-TextStyle grayTextStyle = GoogleFonts.roboto(color: grayColor);
+TextStyle blackTextStyle = GoogleFonts.poppins(color: blackColor);
+TextStyle whiteTextStyle = GoogleFonts.poppins(color: whiteColor);
+TextStyle grayTextStyle = GoogleFonts.poppins(color: grayColor);
 
 // Font Weight List
 FontWeight light = FontWeight.w300;
