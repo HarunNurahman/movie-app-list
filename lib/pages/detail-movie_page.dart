@@ -18,10 +18,12 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
   void initState() {
     youtubeController = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(youtubeUrl)!,
-      flags: YoutubePlayerFlags(
+      flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: true,
         forceHD: true,
+        controlsVisibleAtStart: true,
+        hideThumbnail: true,
         showLiveFullscreenButton: true,
       ),
     );
@@ -84,7 +86,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
         );
       }
 
-      Widget body() {
+      Widget trailerBox() {
         return Container(
           width: double.infinity,
           margin: EdgeInsets.only(
@@ -108,25 +110,140 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                   fontWeight: semiBold,
                 ),
               ),
+              SizedBox(height: defaultRadius),
               // Trailer video player
-              Container(
-                margin: EdgeInsets.only(top: defaultRadius),
-                child: YoutubePlayer(
-                  controller: youtubeController!,
-                  showVideoProgressIndicator: true,
-                  onReady: () => print('Ready'),
-                  bottomActions: [
-                    CurrentPosition(),
-                    ProgressBar(
-                      isExpanded: true,
-                      colors: ProgressBarColors(
-                        playedColor: Colors.amber,
-                        handleColor: Colors.amberAccent,
-                      ),
-                    )
-                  ],
-                ),
+              YoutubePlayer(
+                controller: youtubeController!,
+                showVideoProgressIndicator: true,
+                onReady: () => print('Ready'),
+                bottomActions: [
+                  CurrentPosition(),
+                  ProgressBar(
+                    isExpanded: true,
+                    colors: ProgressBarColors(
+                      playedColor: Colors.red,
+                      handleColor: Colors.redAccent,
+                    ),
+                  )
+                ],
               )
+            ],
+          ),
+        );
+      }
+
+      Widget descriptionBox() {
+        return Container(
+          margin: EdgeInsets.only(top: defaultRadius),
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: defaultRadius,
+            vertical: 20,
+          ),
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(defaultRadius),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Description',
+                style: blackTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: semiBold,
+                ),
+              ),
+              SizedBox(height: defaultRadius),
+              Text(
+                'A young hobbit, Frodo, who has found the One Ring that belongs to the Dark Lord Sauron, begins his journey with eight companions to Mount Doom, the only place where it can be destroyed.',
+                style: blackTextStyle.copyWith(fontSize: 12, fontWeight: light),
+                textAlign: TextAlign.justify,
+                maxLines: 5,
+                overflow: TextOverflow.clip,
+              )
+            ],
+          ),
+        );
+      }
+
+      Widget additionalInfo() {
+        return Container(
+          margin: EdgeInsets.only(top: defaultRadius, bottom: defaultMargin),
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: defaultRadius,
+            vertical: 20,
+          ),
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(defaultRadius),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Release Date',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                  SizedBox(height: defaultRadius),
+                  Text(
+                    '18 Desember 2001',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 12,
+                      fontWeight: light,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: defaultRadius),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Budget',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                  SizedBox(height: defaultRadius),
+                  Text(
+                    '93 Million USD',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 12,
+                      fontWeight: light,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: defaultRadius),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Genres',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                  SizedBox(height: defaultRadius),
+                  Text(
+                    'Adventure, Fantasy, Action',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 12,
+                      fontWeight: light,
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         );
@@ -138,7 +255,9 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
         child: Column(
           children: [
             title(),
-            body(),
+            trailerBox(),
+            descriptionBox(),
+            additionalInfo(),
           ],
         ),
       );
@@ -150,6 +269,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
         ),
         builder: (context, player) {
           return Scaffold(
+            backgroundColor: Colors.grey[200],
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Stack(
@@ -161,7 +281,6 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 }

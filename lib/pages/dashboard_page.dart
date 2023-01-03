@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/now-playing_model.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/top-rated_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/upcoming_card.dart';
+import 'package:movieapp_javan_devtest/provider/now-playing_provider.dart';
+import 'package:provider/provider.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    NowPlayingProvider nowPlayingProvider =
+        Provider.of<NowPlayingProvider>(context);
+
     // App bar widget
     PreferredSizeWidget appBar() {
       return AppBar(
@@ -139,12 +145,9 @@ class DashboardPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: const [
-                  NowPlayingCard(),
-                  NowPlayingCard(),
-                  NowPlayingCard(),
-                  NowPlayingCard(),
-                ],
+                children: nowPlayingProvider.nowPlaying
+                    .map((nowPlaying) => NowPlayingCard(nowPlaying))
+                    .toList(),
               ),
             ),
           ],
