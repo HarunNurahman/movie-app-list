@@ -1,16 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/top-rated_model.dart';
 
 class TopRatedCard extends StatelessWidget {
-  const TopRatedCard({super.key});
+  final TopRatedModel topRated;
+
+  const TopRatedCard(this.topRated, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    String imgUrl = 'https://image.tmdb.org/t/p/original/';
     return GestureDetector(
       onTap: () {},
       child: Container(
         margin: const EdgeInsets.only(top: 16, right: 16),
-        width: 180,
+        width: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultRadius),
           border: Border.all(
@@ -24,10 +28,9 @@ class TopRatedCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.asset(
-                'assets/images/lotr-2.jpg',
+              child: Image.network(
+                '$imgUrl/${topRated.posterPath}',
                 fit: BoxFit.cover,
-                width: 180,
               ),
             ),
             Padding(
@@ -40,7 +43,7 @@ class TopRatedCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    'The Lords of The Rings: The Two Towers',
+                    topRated.title!,
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -48,7 +51,7 @@ class TopRatedCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    'Jan 13, 2003',
+                    topRated.releaseDate!,
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

@@ -10,7 +10,7 @@ class PopularCard extends StatelessWidget {
       onTap: () {},
       child: Container(
         margin: const EdgeInsets.only(top: 16, right: 16),
-        width: 180,
+        width: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultRadius),
           border: Border.all(

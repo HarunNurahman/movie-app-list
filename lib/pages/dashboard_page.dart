@@ -5,6 +5,7 @@ import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/top-rated_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/upcoming_card.dart';
+import 'package:movieapp_javan_devtest/providers/movie_provider.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -12,6 +13,7 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MovieProvider movieProvider = Provider.of<MovieProvider>(context);
 
     // App bar widget
     PreferredSizeWidget appBar() {
@@ -105,7 +107,7 @@ class DashboardPage extends StatelessWidget {
     }
 
     // Now playing movie widget (movie title, 'more' button, now playing card)
-    Widget nowPlaying() {
+    Widget nowPlayingBox() {
       return Container(
         margin: EdgeInsets.symmetric(
           vertical: defaultMargin,
@@ -141,13 +143,9 @@ class DashboardPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [
-                NowPlayingCard(),
-                NowPlayingCard(),
-                NowPlayingCard(),
-                NowPlayingCard(),
-              ]
-              ),
+                  children: movieProvider.nowPlaying
+                      .map((movie) => NowPlayingCard(movie))
+                      .toList()),
             ),
           ],
         ),
@@ -155,7 +153,7 @@ class DashboardPage extends StatelessWidget {
     }
 
     // Top rated movie widget (movie title, 'more' button, top rated movie card)
-    Widget topRated() {
+    Widget topRatedBox() {
       return Container(
         margin: EdgeInsets.only(
           bottom: defaultMargin,
@@ -191,21 +189,18 @@ class DashboardPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: const [
-                  TopRatedCard(),
-                  TopRatedCard(),
-                  TopRatedCard(),
-                  TopRatedCard(),
-                ],
+                children: movieProvider.topRated
+                    .map((movie) => TopRatedCard(movie))
+                    .toList(),
               ),
-            )
+            ),
           ],
         ),
       );
     }
 
     // Popular movie widget (movie title, 'more' button, popular movie card)
-    Widget popularMovie() {
+    Widget popularMovieBox() {
       return Container(
         margin: EdgeInsets.only(
           bottom: defaultMargin,
@@ -255,7 +250,7 @@ class DashboardPage extends StatelessWidget {
     }
 
     // Upcoming movie widget (movie title, 'more' button, upcoming movie card)
-    Widget upcomingMovie() {
+    Widget upcomingMovieBox() {
       return Container(
         margin: EdgeInsets.only(
           bottom: defaultMargin,
@@ -313,10 +308,10 @@ class DashboardPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              nowPlaying(),
-              topRated(),
-              popularMovie(),
-              upcomingMovie(),
+              nowPlayingBox(),
+              topRatedBox(),
+              popularMovieBox(),
+              upcomingMovieBox(),
             ],
           ),
         ),
