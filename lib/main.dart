@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/pages/dashboard_page.dart';
 import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 import 'package:movieapp_javan_devtest/pages/splash-screen_page.dart';
-import 'package:movieapp_javan_devtest/provider/now-playing_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(const MyApp());
@@ -20,21 +19,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => NowPlayingProvider()),
-      ],
-      child: MaterialApp(
-        routes: {
-          '/': (context) => const SplashScreenPage(),
-          '/dashboard': (context) => const DashboardPage(),
-          '/detail-movie': (context) => DetailMoviePage(),
-        },
-        debugShowCheckedModeBanner: false,
-        // // Device Preview // //
-        // locale: DevicePreview.locale(context),
-        // builder: DevicePreview.appBuilder,
-      ),
+    return MaterialApp(
+      routes: {
+        '/': (context) => const SplashScreenPage(),
+        '/dashboard': (context) => const DashboardPage(),
+      },
+      debugShowCheckedModeBanner: false,
+      // // Device Preview // //
+      // locale: DevicePreview.locale(context),
+      // builder: DevicePreview.appBuilder,
     );
   }
 }

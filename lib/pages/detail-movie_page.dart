@@ -55,9 +55,11 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
       return Container(
         width: double.infinity,
         height: 300,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/lotr-1.jpg'),
+            image: AssetImage(
+              'assets/images/lotr-1.jpg',
+            ),
             fit: BoxFit.cover,
           ),
         ),
@@ -156,7 +158,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               ),
               SizedBox(height: defaultRadius),
               Text(
-                'A young hobbit, Frodo, who has found the One Ring that belongs to the Dark Lord Sauron, begins his journey with eight companions to Mount Doom, the only place where it can be destroyed.',
+                'Test',
                 style: blackTextStyle.copyWith(fontSize: 12, fontWeight: light),
                 textAlign: TextAlign.justify,
                 maxLines: 5,
@@ -215,7 +217,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                   ),
                   SizedBox(height: defaultRadius),
                   Text(
-                    '93 Million USD',
+                    '\$USD 4.000.000',
                     style: blackTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

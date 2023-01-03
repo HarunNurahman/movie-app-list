@@ -1,17 +1,21 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/now-playing_model.dart';
+import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 
 class NowPlayingCard extends StatelessWidget {
-  NowPlayingCard(this.nowPlaying);
-
-  NowPlayingModel nowPlaying;
+  const NowPlayingCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('/detail-movie');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailMoviePage(),
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(top: 16, right: 16),
@@ -30,7 +34,7 @@ class NowPlayingCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
               child: Image.network(
-                'https://image.tmdb.org/t/p/original/${nowPlaying.posterPath}',
+                'assets/images/lotr-1.jpg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -44,7 +48,7 @@ class NowPlayingCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    nowPlaying.title!,
+                    'The Lords of The Rings: The Fellowship of The Rings',
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -52,7 +56,7 @@ class NowPlayingCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    nowPlaying.releaseDate.toString(),
+                    '18 Desember 2001',
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

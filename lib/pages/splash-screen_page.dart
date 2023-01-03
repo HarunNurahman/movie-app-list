@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/provider/now-playing_provider.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreenPage extends StatefulWidget {
@@ -15,8 +14,6 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   void initState() {
-    Provider.of<NowPlayingProvider>(context, listen: false).getNowPlaying();
-
     Timer(
         const Duration(seconds: 3),
         () => Navigator.of(context)
