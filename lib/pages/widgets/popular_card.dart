@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/popular_model.dart';
 
 class PopularCard extends StatelessWidget {
-  const PopularCard({super.key});
+  final PopularModel popularMovie;
+
+  const PopularCard(this.popularMovie, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    String imgUrl = 'https://image.tmdb.org/t/p/original/';
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -24,8 +28,8 @@ class PopularCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.asset(
-                'assets/images/lotr-3.jpg',
+              child: Image.network(
+                '$imgUrl/${popularMovie.posterPath}',
                 fit: BoxFit.cover,
               ),
             ),
@@ -39,7 +43,7 @@ class PopularCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    'The Lords of The Rings: The Return of The King',
+                    popularMovie.title!,
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -47,7 +51,7 @@ class PopularCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    'Jan 14, 2004',
+                    popularMovie.releaseDate!,
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

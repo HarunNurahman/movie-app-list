@@ -236,12 +236,9 @@ class DashboardPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: const [
-                  PopularCard(),
-                  PopularCard(),
-                  PopularCard(),
-                  PopularCard(),
-                ],
+                  children: movieProvider.popular
+                      .map((movie) => PopularCard(movie))
+                      .toList()
               ),
             )
           ],
@@ -286,12 +283,9 @@ class DashboardPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: const [
-                  UpcomingCard(),
-                  UpcomingCard(),
-                  UpcomingCard(),
-                  UpcomingCard(),
-                ],
+                  children: movieProvider.upcoming
+                      .map((movie) => UpcomingCard(movie))
+                      .toList()
               ),
             )
           ],

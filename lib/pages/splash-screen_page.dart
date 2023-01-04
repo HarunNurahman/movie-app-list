@@ -22,6 +22,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   getInit() async {
     await Provider.of<MovieProvider>(context, listen: false).getNowPlaying();
     await Provider.of<MovieProvider>(context, listen: false).getTopRated();
+    await Provider.of<MovieProvider>(context, listen: false).getPopular();
+    await Provider.of<MovieProvider>(context, listen: false).getUpcoming();
+
 
     Timer(
       const Duration(seconds: 3),
