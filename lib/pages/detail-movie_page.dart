@@ -31,7 +31,8 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
         showLiveFullscreenButton: true,
       ),
     );
-
+    
+    print('description: ${widget.detailMovie.overview}');
     super.initState();
   }
 
@@ -39,7 +40,6 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
   Widget build(BuildContext context) {
     MovieProvider movieProvider = Provider.of<MovieProvider>(context);
     String imgUrl = 'https://image.tmdb.org/t/p/original/';
-    print(widget.detailMovie.overview);
 
     // Header widget (thumbnail, movie title)
     Widget backgroundThumbnail() {
@@ -166,7 +166,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               ),
               SizedBox(height: defaultRadius),
               Text(
-                widget.detailMovie.title!,
+                widget.detailMovie.overview!,
                 style: blackTextStyle.copyWith(fontSize: 12, fontWeight: light),
                 textAlign: TextAlign.justify,
                 maxLines: 5,
@@ -204,7 +204,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                   ),
                   SizedBox(height: defaultRadius),
                   Text(
-                    widget.detailMovie.overview!,
+                    widget.detailMovie.releaseDate!,
                     style: blackTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,
@@ -225,7 +225,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                   ),
                   SizedBox(height: defaultRadius),
                   Text(
-                    '\$40000000',
+                    '\$40.000.000',
                     style: blackTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,
