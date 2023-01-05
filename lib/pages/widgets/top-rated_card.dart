@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/top-rated_model.dart';
+import 'package:movieapp_javan_devtest/models/movie_model.dart';
+import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 
 class TopRatedCard extends StatelessWidget {
-  final TopRatedModel topRated;
+  final MovieModel topRated;
 
   const TopRatedCard(this.topRated, {super.key});
 
@@ -11,7 +13,14 @@ class TopRatedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String imgUrl = 'https://image.tmdb.org/t/p/original/';
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailMoviePage(topRated),
+          ),
+        );
+      },
       child: Container(
         margin: const EdgeInsets.only(top: 16, right: 16),
         width: 120,

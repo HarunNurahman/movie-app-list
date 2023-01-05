@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/now-playing_model.dart';
+import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 
 class NowPlayingCard extends StatelessWidget {
-  final NowPlayingModel nowPlaying;
+  final MovieModel nowPlaying;
 
   const NowPlayingCard(this.nowPlaying, {super.key});
 
@@ -17,7 +17,7 @@ class NowPlayingCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailMoviePage(),
+            builder: (context) => DetailMoviePage(nowPlaying),
           ),
         );
       },

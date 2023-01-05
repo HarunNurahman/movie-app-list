@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/upcoming_model.dart';
+import 'package:movieapp_javan_devtest/models/movie_model.dart';
 
 class UpcomingCard extends StatelessWidget {
-  final UpcomingModel upcomingMovie;
+  final MovieModel upcomingMovie;
 
   const UpcomingCard(this.upcomingMovie, {super.key});
 

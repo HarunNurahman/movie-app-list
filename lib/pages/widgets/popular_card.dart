@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/popular_model.dart';
+import 'package:movieapp_javan_devtest/models/movie_model.dart';
 
 class PopularCard extends StatelessWidget {
-  final PopularModel popularMovie;
+  final MovieModel popularMovie;
 
   const PopularCard(this.popularMovie, {super.key});
 

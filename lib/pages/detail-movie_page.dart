@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/movie_model.dart';
+import 'package:movieapp_javan_devtest/providers/movie_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetailMoviePage extends StatefulWidget {
-  const DetailMoviePage({super.key});
+  final MovieModel detailMovie;
+  const DetailMoviePage(this.detailMovie, {super.key});
 
   @override
   State<DetailMoviePage> createState() => _DetailMoviePageState();
@@ -33,6 +37,10 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
 
   @override
   Widget build(BuildContext context) {
+    MovieProvider movieProvider = Provider.of<MovieProvider>(context);
+    String imgUrl = 'https://image.tmdb.org/t/p/original/';
+    print(widget.detailMovie.overview);
+
     // Header widget (thumbnail, movie title)
     Widget backgroundThumbnail() {
       Widget backColor() {
@@ -57,8 +65,8 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
         height: 300,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-              'assets/images/lotr-1.jpg',
+            image: NetworkImage(
+              '$imgUrl/${widget.detailMovie.posterPath}',
             ),
             fit: BoxFit.cover,
           ),
@@ -78,7 +86,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
             top: MediaQuery.of(context).size.height * 0.17,
           ),
           child: Text(
-            'The Lords of The Rings: The Fellowship of The Rings',
+            widget.detailMovie.title!,
             style: whiteTextStyle.copyWith(
               fontSize: 20,
               fontWeight: semiBold,
@@ -158,7 +166,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               ),
               SizedBox(height: defaultRadius),
               Text(
-                'Test',
+                widget.detailMovie.title!,
                 style: blackTextStyle.copyWith(fontSize: 12, fontWeight: light),
                 textAlign: TextAlign.justify,
                 maxLines: 5,
@@ -196,7 +204,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                   ),
                   SizedBox(height: defaultRadius),
                   Text(
-                    '18 Desember 2001',
+                    widget.detailMovie.overview!,
                     style: blackTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,
@@ -217,7 +225,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                   ),
                   SizedBox(height: defaultRadius),
                   Text(
-                    '\$USD 4.000.000',
+                    '\$40000000',
                     style: blackTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

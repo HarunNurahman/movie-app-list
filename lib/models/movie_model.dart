@@ -1,10 +1,7 @@
-import 'package:movieapp_javan_devtest/models/genre_model.dart';
-
 class MovieModel {
   MovieModel({
     this.backdropPath,
     this.budget,
-    this.genres,
     this.homepage,
     this.id,
     this.overview,
@@ -16,7 +13,6 @@ class MovieModel {
 
   String? backdropPath;
   int? budget;
-  List<GenreModel>? genres;
   String? homepage;
   int? id;
   String? overview;
@@ -28,9 +24,6 @@ class MovieModel {
   factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         backdropPath: json["backdrop_path"],
         budget: json["budget"],
-        genres: List<GenreModel>.from(
-          json["genres"].map((genres) => GenreModel.fromJson(genres)),
-        ),
         homepage: json["homepage"],
         id: json["id"],
         overview: json["overview"],
@@ -43,7 +36,6 @@ class MovieModel {
   Map<String, dynamic> toJson() => {
         "backdrop_path": backdropPath,
         "budget": budget,
-        "genres": List<dynamic>.from(genres!.map((genres) => genres.toJson())),
         "homepage": homepage,
         "id": id,
         "overview": overview,
