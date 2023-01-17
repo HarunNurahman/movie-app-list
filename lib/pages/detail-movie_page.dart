@@ -1,44 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
-import 'package:movieapp_javan_devtest/providers/movie_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetailMoviePage extends StatefulWidget {
-  final MovieModel detailMovie;
-  const DetailMoviePage(this.detailMovie, {super.key});
+  const DetailMoviePage({super.key});
 
   @override
   State<DetailMoviePage> createState() => _DetailMoviePageState();
 }
 
 class _DetailMoviePageState extends State<DetailMoviePage> {
-  String youtubeUrl = 'V75dMMIW2B4';
-
-  YoutubePlayerController? youtubeController;
-
   @override
   void initState() {
-    youtubeController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(youtubeUrl)!,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: true,
-        forceHD: true,
-        controlsVisibleAtStart: true,
-        hideThumbnail: true,
-        showLiveFullscreenButton: true,
-      ),
-    );
-    
-    print('description: ${widget.detailMovie.overview}');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    MovieProvider movieProvider = Provider.of<MovieProvider>(context);
     String imgUrl = 'https://image.tmdb.org/t/p/original/';
 
     // Header widget (thumbnail, movie title)
@@ -63,10 +42,10 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
       return Container(
         width: double.infinity,
         height: 300,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
-              '$imgUrl/${widget.detailMovie.posterPath}',
+            image: AssetImage(
+              'assets/images/lotr-1.jpg',
             ),
             fit: BoxFit.cover,
           ),
@@ -86,7 +65,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
             top: MediaQuery.of(context).size.height * 0.17,
           ),
           child: Text(
-            widget.detailMovie.title!,
+            'widget.detailMovie.title!',
             style: whiteTextStyle.copyWith(
               fontSize: 20,
               fontWeight: semiBold,
@@ -122,21 +101,21 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               ),
               SizedBox(height: defaultRadius),
               // Trailer video player
-              YoutubePlayer(
-                controller: youtubeController!,
-                showVideoProgressIndicator: true,
-                onReady: () => print('Ready'),
-                bottomActions: [
-                  CurrentPosition(),
-                  ProgressBar(
-                    isExpanded: true,
-                    colors: ProgressBarColors(
-                      playedColor: Colors.red,
-                      handleColor: Colors.redAccent,
-                    ),
-                  )
-                ],
-              )
+              // YoutubePlayer(
+              //   controller: youtubeController!,
+              //   showVideoProgressIndicator: true,
+              //   onReady: () => print('Ready'),
+              //   bottomActions: [
+              //     CurrentPosition(),
+              //     ProgressBar(
+              //       isExpanded: true,
+              //       colors: ProgressBarColors(
+              //         playedColor: Colors.red,
+              //         handleColor: Colors.redAccent,
+              //       ),
+              //     )
+              //   ],
+              // )
             ],
           ),
         );
@@ -166,7 +145,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               ),
               SizedBox(height: defaultRadius),
               Text(
-                widget.detailMovie.overview!,
+                'widget.detailMovie.overview!',
                 style: blackTextStyle.copyWith(fontSize: 12, fontWeight: light),
                 textAlign: TextAlign.justify,
                 maxLines: 5,
@@ -204,7 +183,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                   ),
                   SizedBox(height: defaultRadius),
                   Text(
-                    widget.detailMovie.releaseDate!,
+                    'widget.detailMovie.releaseDate!',
                     style: blackTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,
@@ -273,24 +252,18 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
       );
     }
 
-    return YoutubePlayerBuilder(
-        player: YoutubePlayer(
-          controller: youtubeController!,
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              backgroundThumbnail(),
+              bodyContent(),
+            ],
+          ),
         ),
-        builder: (context, player) {
-          return Scaffold(
-            backgroundColor: Colors.grey[200],
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: Stack(
-                  children: [
-                    backgroundThumbnail(),
-                    bodyContent(),
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
+      ),
+    );
   }
 }

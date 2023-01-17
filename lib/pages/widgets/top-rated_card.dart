@@ -5,9 +5,7 @@ import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 
 class TopRatedCard extends StatelessWidget {
-  final MovieModel topRated;
-
-  const TopRatedCard(this.topRated, {super.key});
+  const TopRatedCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +15,7 @@ class TopRatedCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailMoviePage(topRated),
+            builder: (context) => DetailMoviePage(),
           ),
         );
       },
@@ -37,8 +35,8 @@ class TopRatedCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.network(
-                '$imgUrl/${topRated.posterPath}',
+              child: Image.asset(
+                'assets/images/lotr-1.jpg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -52,7 +50,7 @@ class TopRatedCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    topRated.title!,
+                    'topRated.title!',
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -60,7 +58,7 @@ class TopRatedCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    topRated.releaseDate!,
+                    'topRated.releaseDate!',
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

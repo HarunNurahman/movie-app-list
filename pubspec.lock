@@ -132,7 +132,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< HEAD
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -154,7 +153,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
-=======
   flutter_inappwebview:
     dependency: transitive
     description:
@@ -162,7 +160,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.7.2+3"
->>>>>>> 0309cfdeff6ea86efd38593ca9bc85826c85ba43
   flutter_lints:
     dependency: "direct dev"
     description:

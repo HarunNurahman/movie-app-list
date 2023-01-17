@@ -5,7 +5,6 @@ import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/top-rated_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/upcoming_card.dart';
-import 'package:movieapp_javan_devtest/providers/movie_provider.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -13,8 +12,6 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MovieProvider movieProvider = Provider.of<MovieProvider>(context);
-
     // App bar widget
     PreferredSizeWidget appBar() {
       return AppBar(
@@ -143,9 +140,13 @@ class DashboardPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                  children: movieProvider.nowPlaying
-                      .map((movie) => NowPlayingCard(movie))
-                      .toList()),
+                children: [
+                  NowPlayingCard(),
+                  NowPlayingCard(),
+                  NowPlayingCard(),
+                  NowPlayingCard(),
+                ],
+              ),
             ),
           ],
         ),
@@ -188,11 +189,12 @@ class DashboardPage extends StatelessWidget {
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: movieProvider.topRated
-                    .map((movie) => TopRatedCard(movie))
-                    .toList(),
-              ),
+              child: Row(children: [
+                TopRatedCard(),
+                TopRatedCard(),
+                TopRatedCard(),
+                TopRatedCard(),
+              ]),
             ),
           ],
         ),
@@ -236,9 +238,12 @@ class DashboardPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                  children: movieProvider.popular
-                      .map((movie) => PopularCard(movie))
-                      .toList()
+                children: [
+                  PopularCard(),
+                  PopularCard(),
+                  PopularCard(),
+                  PopularCard(),
+                ],
               ),
             )
           ],
@@ -283,9 +288,12 @@ class DashboardPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                  children: movieProvider.upcoming
-                      .map((movie) => UpcomingCard(movie))
-                      .toList()
+                children: [
+                  UpcomingCard(),
+                  UpcomingCard(),
+                  UpcomingCard(),
+                  UpcomingCard(),
+                ],
               ),
             )
           ],

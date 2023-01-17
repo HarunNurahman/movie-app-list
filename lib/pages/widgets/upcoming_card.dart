@@ -3,9 +3,7 @@ import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
 
 class UpcomingCard extends StatelessWidget {
-  final MovieModel upcomingMovie;
-
-  const UpcomingCard(this.upcomingMovie, {super.key});
+  const UpcomingCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +26,8 @@ class UpcomingCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.network(
-                '$imgUrl/${upcomingMovie.posterPath}',
+              child: Image.asset(
+                'assets/images/lotr-3.jpg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -43,7 +41,7 @@ class UpcomingCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    upcomingMovie.title!,
+                    'upcomingMovie.title!',
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -51,7 +49,7 @@ class UpcomingCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    'Coming Soon - ${upcomingMovie.releaseDate}',
+                    'Coming Soon - upcomingMovie.releaseDate',
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

@@ -3,9 +3,7 @@ import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
 
 class PopularCard extends StatelessWidget {
-  final MovieModel popularMovie;
-
-  const PopularCard(this.popularMovie, {super.key});
+  const PopularCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +26,8 @@ class PopularCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.network(
-                '$imgUrl/${popularMovie.posterPath}',
+              child: Image.asset(
+                'assets/images/lotr-1.jpg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -43,7 +41,7 @@ class PopularCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    popularMovie.title!,
+                    'popularMovie.title!',
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -51,7 +49,7 @@ class PopularCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    popularMovie.releaseDate!,
+                    'popularMovie.releaseDate!',
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,
