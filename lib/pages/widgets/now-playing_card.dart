@@ -1,14 +1,25 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/movie_model.dart';
+import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 
 class NowPlayingCard extends StatelessWidget {
-  const NowPlayingCard({super.key});
+  final MovieModel nowPlaying;
+
+  const NowPlayingCard(this.nowPlaying, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    String imgUrl = 'https://image.tmdb.org/t/p/original/';
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('/detail-movie');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailMoviePage(nowPlaying),
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(top: 16, right: 16),
@@ -26,8 +37,8 @@ class NowPlayingCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.asset(
-                'assets/images/lotr-1.jpg',
+              child: Image.network(
+                '$imgUrl/${nowPlaying.posterPath}',
                 fit: BoxFit.cover,
               ),
             ),
@@ -41,7 +52,7 @@ class NowPlayingCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    'The Lords of The Rings: The Fellowship of The Ring',
+                    nowPlaying.title!,
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -49,7 +60,7 @@ class NowPlayingCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    'Feb 06, 2001',
+                    nowPlaying.releaseDate!,
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,
