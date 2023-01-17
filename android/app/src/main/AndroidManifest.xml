@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.movieapp_javan_devtest">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="movieapp_javan_devtest"
         android:name="${applicationName}"

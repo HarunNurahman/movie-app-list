@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 Color blackColor = const Color(0xFF000000);
 Color whiteColor = const Color(0xFFFFFFFF);
 Color grayColor = const Color(0xFFC2C2C2);
+Color transparent = Colors.transparent;
 
 // Text Style List w/ Fonts
 TextStyle blackTextStyle = GoogleFonts.roboto(color: blackColor);
