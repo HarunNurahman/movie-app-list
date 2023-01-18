@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp_javan_devtest/bloc/movie_bloc/movie_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/top-rated_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/upcoming_card.dart';
-import 'package:provider/provider.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String imgUrl = 'https://image.tmdb.org/t/p/original/';
+
     // App bar widget
     PreferredSizeWidget appBar() {
       return AppBar(
@@ -106,49 +110,81 @@ class DashboardPage extends StatelessWidget {
     // Now playing movie widget (movie title, 'more' button, now playing card)
     Widget nowPlayingBox() {
       return Container(
-        margin: EdgeInsets.symmetric(
-          vertical: defaultMargin,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Now playing header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Now Playing',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
+        margin: EdgeInsets.symmetric(vertical: defaultMargin),
+        child: BlocBuilder<MovieBloc, MovieState>(
+          builder: (context, state) {
+            if (state is MovieLoading) {
+              return Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    color: grayColor,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    print('nowplaying');
-                  },
-                  child: Text(
-                    'More',
-                    style: grayTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: medium,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+              );
+            } else if (state is MovieSuccess) {
+              List<MovieModel> movie = state.movieList;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  NowPlayingCard(),
-                  NowPlayingCard(),
-                  NowPlayingCard(),
-                  NowPlayingCard(),
+                  // Now playing header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Now Playing',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('nowplaying');
+                        },
+                        child: Text(
+                          'More',
+                          style: grayTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        MovieModel nowPlayingList = movie[index];
+                        return NowPlayingCard(
+                          imgUrl: '$imgUrl/${nowPlayingList.posterPath}',
+                          movieTitle: nowPlayingList.title!,
+                          releaseDate: nowPlayingList.releaseDate!,
+                        );
+                      },
+                      separatorBuilder: (context, index) => VerticalDivider(
+                        color: transparent,
+                        width: 8,
+                      ),
+                      itemCount: movie.length,
+                    ),
+                  )
                 ],
-              ),
-            ),
-          ],
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'Something Went Wrong!',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 24,
+                  ),
+                ),
+              );
+            }
+          },
         ),
       );
     }
@@ -301,20 +337,26 @@ class DashboardPage extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      drawer: drawer(),
-      appBar: appBar(),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              nowPlayingBox(),
-              topRatedBox(),
-              popularMovieBox(),
-              upcomingMovieBox(),
-            ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MovieBloc>(
+            create: (context) => MovieBloc()..add(MovieEventStarted(0, ''))),
+      ],
+      child: Scaffold(
+        drawer: drawer(),
+        appBar: appBar(),
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                nowPlayingBox(),
+                topRatedBox(),
+                popularMovieBox(),
+                upcomingMovieBox(),
+              ],
+            ),
           ),
         ),
       ),

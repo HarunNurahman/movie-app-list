@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
@@ -5,11 +6,18 @@ import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 
 class NowPlayingCard extends StatelessWidget {
-  const NowPlayingCard({super.key});
+  final String imgUrl;
+  final String movieTitle;
+  final DateTime releaseDate;
+  const NowPlayingCard({
+    super.key,
+    required this.imgUrl,
+    required this.movieTitle,
+    required this.releaseDate,
+  });
 
   @override
   Widget build(BuildContext context) {
-    String imgUrl = 'https://image.tmdb.org/t/p/original/';
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -35,9 +43,8 @@ class NowPlayingCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.asset(
-                'assets/images/lotr-1.jpg',
-                fit: BoxFit.cover,
+              child: CachedNetworkImage(
+                imageUrl: imgUrl,
               ),
             ),
             Padding(
@@ -50,7 +57,7 @@ class NowPlayingCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    'nowPlaying.title!',
+                    movieTitle,
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -58,7 +65,7 @@ class NowPlayingCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    'nowPlaying.releaseDate!',
+                    releaseDate.toString(),
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

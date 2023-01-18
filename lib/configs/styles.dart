@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 // Color List
 Color blackColor = const Color(0xFF000000);
@@ -25,19 +25,19 @@ double defaultMargin = 30.0;
 double defaultRadius = 12.0;
 
 // App Format (Currency Format & Date Time Format)
-class AppFormat {
-  // Currency
-  static String currencyFormat(String number) {
-    return NumberFormat.currency(
-      locale: 'id_ID',
-      decimalDigits: 0,
-      symbol: 'USD ',
-    ).format(double.parse(number));
-  }
+// class AppFormat {
+//   // Currency
+//   static String currencyFormat(String number) {
+//     return NumberFormat.currency(
+//       locale: 'id_ID',
+//       decimalDigits: 0,
+//       symbol: 'USD ',
+//     ).format(double.parse(number));
+//   }
 
-  // Date Format
-  static String dateFormat(String stringDate) {
-    DateTime dateTime = DateTime.parse(stringDate);
-    return DateFormat('dd MMMM yyyy', 'id_ID').format(dateTime);
-  }
-}
+//   // Date Format
+//   static String dateFormat(String stringDate) {
+//     DateTime dateTime = DateTime.parse(stringDate);
+//     return DateFormat('dd MMMM yyyy', 'id_ID').format(dateTime);
+//   }
+// }

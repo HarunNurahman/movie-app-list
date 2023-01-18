@@ -12,7 +12,7 @@ class ApiService {
       print('Now Playing API Called');
 
       final response =
-          await _dio.get('$baseUrl/movie/now_playing?$apiKey&page=1');
+          await _dio.get('$baseUrl/movie/now_playing?$apiKey');
       var nowPlaying = response.data['results'] as List;
       List<MovieModel> npList =
           nowPlaying.map((e) => MovieModel.fromJson(e)).toList();
