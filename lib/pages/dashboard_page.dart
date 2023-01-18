@@ -9,6 +9,7 @@ import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/top-rated_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/upcoming_card.dart';
 
+import '../bloc/popular_bloc/popular_bloc.dart';
 import '../bloc/top-rated_bloc/top_rated_bloc.dart';
 import 'detail-movie_page.dart';
 
@@ -292,46 +293,86 @@ class DashboardPage extends StatelessWidget {
         margin: EdgeInsets.only(
           bottom: defaultMargin,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Popular movie header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Popular Movie',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
+        child: BlocBuilder<PopularBloc, PopularState>(
+          builder: (context, state) {
+            if (state is PopularLoading) {
+              return Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    color: grayColor,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    print('popular movie');
-                  },
-                  child: Text(
-                    'More',
-                    style: grayTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: medium,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+              );
+            } else if (state is PopularSuccess) {
+              List<MovieModel> movie = state.movieList;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PopularCard(),
-                  PopularCard(),
-                  PopularCard(),
-                  PopularCard(),
+                  // Popular movie header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Popular Movie',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('popular movie');
+                        },
+                        child: Text(
+                          'More',
+                          style: grayTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2.15,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        MovieModel popularList = movie[index];
+                        return PopularCard(
+                          imgUrl: '$imgUrl/${popularList.posterPath}',
+                          movieTitle: popularList.title!,
+                          releaseDate: popularList.releaseDate!,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailMoviePage(),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => VerticalDivider(
+                        width: 6,
+                        color: transparent,
+                      ),
+                      itemCount: movie.length,
+                    ),
+                  )
                 ],
-              ),
-            )
-          ],
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'Something Went Wrong!',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 24,
+                  ),
+                ),
+              );
+            }
+          },
         ),
       );
     }
@@ -393,6 +434,9 @@ class DashboardPage extends StatelessWidget {
         ),
         BlocProvider<TopRatedBloc>(
           create: (context) => TopRatedBloc()..add(TopRatedEventStarted(0, '')),
+        ),
+        BlocProvider(
+          create: (context) => PopularBloc()..add(PopularEventStarted(0, '')),
         )
       ],
       child: Scaffold(
