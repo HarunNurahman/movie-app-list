@@ -9,12 +9,15 @@ import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/top-rated_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/upcoming_card.dart';
 
+import '../bloc/top-rated_bloc/top_rated_bloc.dart';
+import 'detail-movie_page.dart';
+
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String imgUrl = 'https://image.tmdb.org/t/p/original/';
+    String imgUrl = 'https://image.tmdb.org/t/p/original';
 
     // App bar widget
     PreferredSizeWidget appBar() {
@@ -154,7 +157,7 @@ class DashboardPage extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 2,
+                    height: MediaQuery.of(context).size.height / 1.75,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
@@ -163,6 +166,12 @@ class DashboardPage extends StatelessWidget {
                           imgUrl: '$imgUrl/${nowPlayingList.posterPath}',
                           movieTitle: nowPlayingList.title!,
                           releaseDate: nowPlayingList.releaseDate!,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailMoviePage(),
+                            ),
+                          ),
                         );
                       },
                       separatorBuilder: (context, index) => VerticalDivider(
@@ -192,47 +201,87 @@ class DashboardPage extends StatelessWidget {
     // Top rated movie widget (movie title, 'more' button, top rated movie card)
     Widget topRatedBox() {
       return Container(
-        margin: EdgeInsets.only(
-          bottom: defaultMargin,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Top rated movie header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Top Rated Movie',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
+        margin: EdgeInsets.only(bottom: defaultMargin),
+        child: BlocBuilder<TopRatedBloc, TopRatedState>(
+          builder: (context, state) {
+            if (state is TopRatedLoading) {
+              return Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    color: grayColor,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    print('top rated movie');
-                  },
-                  child: Text(
-                    'More',
-                    style: grayTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: medium,
+              );
+            } else if (state is TopRatedSuccess) {
+              List<MovieModel> movie = state.movieList;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Top rated movie header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Top Rated Movie',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('top rated movie');
+                        },
+                        child: Text(
+                          'More',
+                          style: grayTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2.15,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        MovieModel topRatedList = movie[index];
+                        return TopRatedCard(
+                          imgUrl: '$imgUrl${topRatedList.posterPath}',
+                          movieTitle: topRatedList.title!,
+                          releaseDate: topRatedList.releaseDate!,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailMoviePage(),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => VerticalDivider(
+                        color: transparent,
+                        width: 8,
+                      ),
+                      itemCount: movie.length,
                     ),
+                  )
+                ],
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'Something Went Wrong!',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 24,
                   ),
                 ),
-              ],
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: [
-                TopRatedCard(),
-                TopRatedCard(),
-                TopRatedCard(),
-                TopRatedCard(),
-              ]),
-            ),
-          ],
+              );
+            }
+          },
         ),
       );
     }
@@ -340,7 +389,11 @@ class DashboardPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MovieBloc>(
-            create: (context) => MovieBloc()..add(MovieEventStarted(0, ''))),
+          create: (context) => MovieBloc()..add(MovieEventStarted(0, '')),
+        ),
+        BlocProvider<TopRatedBloc>(
+          create: (context) => TopRatedBloc()..add(TopRatedEventStarted(0, '')),
+        )
       ],
       child: Scaffold(
         drawer: drawer(),

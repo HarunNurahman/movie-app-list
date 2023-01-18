@@ -1,19 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 
 class NowPlayingCard extends StatelessWidget {
   final String imgUrl;
   final String movieTitle;
   final DateTime releaseDate;
+  final Function() onTap;
   const NowPlayingCard({
     super.key,
     required this.imgUrl,
     required this.movieTitle,
     required this.releaseDate,
+    required this.onTap,
   });
 
   @override
@@ -43,9 +43,7 @@ class NowPlayingCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: CachedNetworkImage(
-                imageUrl: imgUrl,
-              ),
+              child: CachedNetworkImage(imageUrl: imgUrl),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(

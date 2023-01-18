@@ -11,15 +11,29 @@ class ApiService {
     try {
       print('Now Playing API Called');
 
-      final response =
-          await _dio.get('$baseUrl/movie/now_playing?$apiKey');
+      final response = await _dio.get('$baseUrl/movie/now_playing?$apiKey');
       var nowPlaying = response.data['results'] as List;
       List<MovieModel> npList =
           nowPlaying.map((e) => MovieModel.fromJson(e)).toList();
       return npList;
     } catch (e) {
       print(e);
-      throw Exception(e);
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<List<MovieModel>> getTopRatedMovie() async {
+    try {
+      print('Top Rated API Called');
+
+      final response = await _dio.get('$baseUrl/movie/top_rated?$apiKey');
+      var topRated = response.data['results'] as List;
+      List<MovieModel> trList =
+          topRated.map((e) => MovieModel.fromJson(e)).toList();
+      return trList;
+    } catch (e) {
+      print(e);
+      throw Exception(e.toString());
     }
   }
 }

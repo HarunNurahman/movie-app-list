@@ -51,7 +51,7 @@ class MovieModel {
         "popularity": popularity,
         "poster_path": posterPath,
         "release_date":
-            "${releaseDate!.year.toString().padLeft(4, '0')}-${releaseDate!.month.toString().padLeft(2, '0')}-${releaseDate!.day.toString().padLeft(2, '0')}",
+            "${releaseDate!.year.toString().padLeft(4, '0')}/${releaseDate!.month.toString().padLeft(2, '0')}/${releaseDate!.day.toString().padLeft(2, '0')}",
         "title": title,
         "video": video,
         "vote_average": voteAverage,

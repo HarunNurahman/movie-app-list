@@ -1,24 +1,25 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/movie_model.dart';
-import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
 
 class TopRatedCard extends StatelessWidget {
-  const TopRatedCard({super.key});
+  final String imgUrl;
+  final String movieTitle;
+  final DateTime releaseDate;
+  final Function() onTap;
+  const TopRatedCard({
+    super.key,
+    required this.imgUrl,
+    required this.movieTitle,
+    required this.releaseDate,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    String imgUrl = 'https://image.tmdb.org/t/p/original/';
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailMoviePage(),
-          ),
-        );
-      },
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(top: 16, right: 16),
         width: 120,
@@ -35,8 +36,8 @@ class TopRatedCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.asset(
-                'assets/images/lotr-1.jpg',
+              child: CachedNetworkImage(
+                imageUrl: imgUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -50,7 +51,7 @@ class TopRatedCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    'topRated.title!',
+                    movieTitle,
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -58,7 +59,7 @@ class TopRatedCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    'topRated.releaseDate!',
+                    releaseDate.toString(),
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,

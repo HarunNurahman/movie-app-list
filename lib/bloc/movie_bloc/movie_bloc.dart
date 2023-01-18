@@ -9,6 +9,7 @@ part 'movie_state.dart';
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
   MovieBloc() : super(MovieInitial());
 
+  @override
   Stream<MovieState> mapEventToState(MovieEvent event) async* {
     if (event is MovieEventStarted) {
       yield* _mapMovieEventToState(event.movieId, event.query);
