@@ -292,7 +292,7 @@ class DetailMoviePage extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => DetailMovieBloc()
+      create: (context) => DetailMovieBloc(detailMovie.id!)
         ..add(
           DetailMovieEventStarted(detailMovie.id!),
         ),

@@ -7,24 +7,36 @@ part 'detail_movie_event.dart';
 part 'detail_movie_state.dart';
 
 class DetailMovieBloc extends Bloc<DetailMovieEvent, DetailMovieState> {
-  DetailMovieBloc() : super(DetailMovieInitial());
-
-  @override
-  Stream<DetailMovieState> mapEventToState(DetailMovieEvent event) async* {
-    if (event is DetailMovieEventStarted) {
-      yield* _mapDetailMovieEventStarted(event.id);
-    }
+  DetailMovieBloc(int movieId) : super(DetailMovieInitial()) {
+    on<DetailMovieEvent>((event, emit) async {
+      if (event is DetailMovieEventStarted) {
+        emit(DetailMovieLoading());
+        try {
+          final detailMovie = await ApiService().getMovieDetail(movieId);
+          emit(DetailMovieSuccess(detailMovie));
+        } catch (e) {
+          emit(DetailMovieError(e.toString()));
+        }
+      }
+    });
   }
 
-  Stream<DetailMovieState> _mapDetailMovieEventStarted(int id) async* {
-    final service = ApiService();
-    yield DetailMovieLoading();
+  // @override
+  // Stream<DetailMovieState> mapEventToState(DetailMovieEvent event) async* {
+  //   if (event is DetailMovieEventStarted) {
+  //     yield* _mapDetailMovieEventStarted(event.id);
+  //   }
+  // }
 
-    try {
-      final detailMovie = await service.getMovieDetail(id);
-      yield DetailMovieSuccess(detailMovie);
-    } catch (e) {
-      yield DetailMovieError(e.toString());
-    }
-  }
+  // Stream<DetailMovieState> _mapDetailMovieEventStarted(int id) async* {
+  //   final service = ApiService();
+  //   yield DetailMovieLoading();
+
+  //   try {
+  //     final detailMovie = await service.getMovieDetail(id);
+  //     yield DetailMovieSuccess(detailMovie);
+  //   } catch (e) {
+  //     yield DetailMovieError(e.toString());
+  //   }
+  // }
 }

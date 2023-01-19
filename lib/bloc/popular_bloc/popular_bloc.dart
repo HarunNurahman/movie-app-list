@@ -7,29 +7,43 @@ part 'popular_event.dart';
 part 'popular_state.dart';
 
 class PopularBloc extends Bloc<PopularEvent, PopularState> {
-  PopularBloc() : super(PopularInitial());
+  PopularBloc() : super(PopularInitial()) {
+    on<PopularEvent>((event, emit) async {
+      if (state is PopularEventStarted) {
+        emit(PopularLoading());
+        try {
+          List<MovieModel> movieList;
+          movieList = await ApiService().getPopularMovie();
 
-  @override
-  Stream<PopularState> mapEventToState(PopularEvent event) async* {
-    if (event is PopularEventStarted) {
-      yield* _mapPopularEventToState(event.movieId, event.query);
-    }
+          emit(PopularSuccess(movieList));
+        } catch (e) {
+          emit(PopularError(e.toString()));
+        }
+      }
+    });
   }
 
-  Stream<PopularState> _mapPopularEventToState(
-    int movieId,
-    String query,
-  ) async* {
-    final service = ApiService();
-    yield PopularLoading();
+  // @override
+  // Stream<PopularState> mapEventToState(PopularEvent event) async* {
+  //   if (event is PopularEventStarted) {
+  //     yield* _mapPopularEventToState(event.movieId, event.query);
+  //   }
+  // }
 
-    try {
-      List<MovieModel> movieList;
-      movieList = await service.getPopularMovie();
+  // Stream<PopularState> _mapPopularEventToState(
+  //   int movieId,
+  //   String query,
+  // ) async* {
+  //   final service = ApiService();
+  //   yield PopularLoading();
 
-      yield PopularSuccess(movieList);
-    } catch (e) {
-      yield PopularError(e.toString());
-    }
-  }
+  //   try {
+  //     List<MovieModel> movieList;
+  //     movieList = await service.getPopularMovie();
+
+  //     yield PopularSuccess(movieList);
+  //   } catch (e) {
+  //     yield PopularError(e.toString());
+  //   }
+  // }
 }
