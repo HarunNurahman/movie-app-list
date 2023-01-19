@@ -11,6 +11,7 @@ import 'package:movieapp_javan_devtest/pages/widgets/upcoming_card.dart';
 
 import '../bloc/popular_bloc/popular_bloc.dart';
 import '../bloc/top-rated_bloc/top_rated_bloc.dart';
+import '../bloc/upcoming_bloc/upcoming_bloc.dart';
 import 'detail-movie_page.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -179,7 +180,7 @@ class DashboardPage extends StatelessWidget {
                         color: transparent,
                         width: 8,
                       ),
-                      itemCount: movie.length,
+                      itemCount: movie.length = 7,
                     ),
                   )
                 ],
@@ -267,7 +268,7 @@ class DashboardPage extends StatelessWidget {
                         color: transparent,
                         width: 8,
                       ),
-                      itemCount: movie.length,
+                      itemCount: movie.length = 7,
                     ),
                   )
                 ],
@@ -357,7 +358,7 @@ class DashboardPage extends StatelessWidget {
                         width: 6,
                         color: transparent,
                       ),
-                      itemCount: movie.length,
+                      itemCount: movie.length = 7,
                     ),
                   )
                 ],
@@ -383,46 +384,86 @@ class DashboardPage extends StatelessWidget {
         margin: EdgeInsets.only(
           bottom: defaultMargin,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // upcoming movie header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Upcoming Movie',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
+        child: BlocBuilder<UpcomingBloc, UpcomingState>(
+          builder: (context, state) {
+            if (state is UpcomingLoading) {
+              return Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    color: grayColor,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    print('upcoming movie');
-                  },
-                  child: Text(
-                    'More',
-                    style: grayTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: medium,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+              );
+            } else if (state is UpcomingSuccess) {
+              List<MovieModel> movie = state.movieList;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  UpcomingCard(),
-                  UpcomingCard(),
-                  UpcomingCard(),
-                  UpcomingCard(),
+                  // upcoming movie header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Upcoming Movie',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('upcoming movie');
+                        },
+                        child: Text(
+                          'More',
+                          style: grayTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2.15,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        MovieModel upcomingList = movie[index];
+                        return UpcomingCard(
+                          imgUrl: '$imgUrl/${upcomingList.posterPath}',
+                          movieTitle: upcomingList.title!,
+                          releaseDate: upcomingList.releaseDate!,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailMoviePage(),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => VerticalDivider(
+                        color: transparent,
+                        width: 6,
+                      ),
+                      itemCount: movie.length = 5,
+                    ),
+                  )
                 ],
-              ),
-            )
-          ],
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'Something Went Wrong!',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 24,
+                  ),
+                ),
+              );
+            }
+          },
         ),
       );
     }
@@ -437,6 +478,9 @@ class DashboardPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PopularBloc()..add(PopularEventStarted(0, '')),
+        ),
+        BlocProvider(
+          create: (context) => UpcomingBloc()..add(UpcomingEventStarted(0, '')),
         )
       ],
       child: Scaffold(

@@ -54,4 +54,19 @@ class ApiService {
       throw Exception(e.toString());
     }
   }
+
+  // GET Upcoming Movie API
+  Future<List<MovieModel>> getUpcomingMovie() async {
+    try {
+      print('Upcoming API Called');
+      final response = await _dio.get('$baseUrl/movie/upcoming?$apiKey');
+      var upcoming = response.data['results'] as List;
+      List<MovieModel> upcomingList =
+          upcoming.map((e) => MovieModel.fromJson(e)).toList();
+      return upcomingList;
+    } catch (e) {
+      print(e);
+      throw Exception(e.toString());
+    }
+  }
 }

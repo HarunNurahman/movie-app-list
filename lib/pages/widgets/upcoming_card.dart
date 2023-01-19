@@ -1,15 +1,24 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/movie_model.dart';
 
 class UpcomingCard extends StatelessWidget {
-  const UpcomingCard({super.key});
+  final String imgUrl;
+  final String movieTitle;
+  final DateTime releaseDate;
+  final Function() onTap;
+  const UpcomingCard({
+    super.key,
+    required this.imgUrl,
+    required this.movieTitle,
+    required this.releaseDate,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    String imgUrl = 'https://image.tmdb.org/t/p/original/';
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(top: 16, right: 16),
         width: 120,
@@ -26,10 +35,7 @@ class UpcomingCard extends StatelessWidget {
             // Movie poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Image.asset(
-                'assets/images/lotr-3.jpg',
-                fit: BoxFit.cover,
-              ),
+              child: CachedNetworkImage(imageUrl: imgUrl),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -41,7 +47,7 @@ class UpcomingCard extends StatelessWidget {
                 children: [
                   // Movie title
                   Text(
-                    'upcomingMovie.title!',
+                    movieTitle,
                     style: blackTextStyle.copyWith(fontWeight: medium),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -49,7 +55,7 @@ class UpcomingCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   // Release date
                   Text(
-                    'Coming Soon - upcomingMovie.releaseDate',
+                    releaseDate.toString(),
                     style: grayTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: light,
