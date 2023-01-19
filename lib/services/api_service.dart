@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
 
 class ApiService {
@@ -6,6 +7,19 @@ class ApiService {
 
   final String baseUrl = 'https://api.themoviedb.org/3/';
   final String apiKey = 'api_key=1f8a6fdb1a03d4b7a9d53856cec57c42';
+
+  // GET Detail Movie API
+  Future<DetailMovieModel> getMovieDetail(int movieId) async {
+    try {
+      final response = await _dio.get('$baseUrl/movie/$movieId?$apiKey');
+      DetailMovieModel detailMovie = DetailMovieModel.fromJson(response.data);
+
+      return detailMovie;
+    } catch (e) {
+      print(e);
+      throw Exception(e.toString());
+    }
+  }
 
   // GET Now Playing API
   Future<List<MovieModel>> getNowPlayingMovie() async {

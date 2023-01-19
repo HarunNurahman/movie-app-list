@@ -171,7 +171,8 @@ class DashboardPage extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailMoviePage(),
+                              builder: (context) =>
+                                  DetailMoviePage(detailMovie: nowPlayingList),
                             ),
                           ),
                         );
@@ -259,7 +260,8 @@ class DashboardPage extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailMoviePage(),
+                              builder: (context) =>
+                                  DetailMoviePage(detailMovie: topRatedList),
                             ),
                           ),
                         );
@@ -349,7 +351,8 @@ class DashboardPage extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailMoviePage(),
+                              builder: (context) =>
+                                  DetailMoviePage(detailMovie: popularList),
                             ),
                           ),
                         );
@@ -439,7 +442,8 @@ class DashboardPage extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailMoviePage(),
+                              builder: (context) =>
+                                  DetailMoviePage(detailMovie: upcomingList),
                             ),
                           ),
                         );
