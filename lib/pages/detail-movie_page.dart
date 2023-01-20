@@ -35,7 +35,17 @@ class DetailMoviePage extends StatelessWidget {
 
       return BlocBuilder<DetailMovieBloc, DetailMovieState>(
         builder: (context, state) {
-          if (state is DetailMovieSuccess) {
+          if (state is DetailMovieLoading) {
+            return Center(
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  color: grayColor,
+                ),
+              ),
+            );
+          } else if (state is DetailMovieSuccess) {
             DetailMovieModel detailMovieModel = state.detailMovie;
             return Container(
               width: double.infinity,
@@ -72,7 +82,9 @@ class DetailMoviePage extends StatelessWidget {
       Widget title() {
         return BlocBuilder<DetailMovieBloc, DetailMovieState>(
           builder: (context, state) {
-            if (state is DetailMovieSuccess) {
+            if (state is DetailMovieLoading) {
+              return SizedBox();
+            } else if (state is DetailMovieSuccess) {
               DetailMovieModel detailMovieModel = state.detailMovie;
               return Padding(
                 padding: EdgeInsets.only(
@@ -188,7 +200,9 @@ class DetailMoviePage extends StatelessWidget {
       Widget additionalInfo() {
         return BlocBuilder<DetailMovieBloc, DetailMovieState>(
           builder: (context, state) {
-            if (state is DetailMovieSuccess) {
+            if (state is DetailMovieLoading) {
+              return SizedBox();
+            } else if (state is DetailMovieSuccess) {
               DetailMovieModel detailMovieModel = state.detailMovie;
               return Container(
                 margin:
@@ -257,9 +271,8 @@ class DetailMoviePage extends StatelessWidget {
                             fontWeight: semiBold,
                           ),
                         ),
-                        SizedBox(height: defaultRadius),
                         Text(
-                          'Adventure, Fantasy, Action',
+                          detailMovieModel.genreModel![0].name!,
                           style: blackTextStyle.copyWith(
                             fontSize: 12,
                             fontWeight: light,
