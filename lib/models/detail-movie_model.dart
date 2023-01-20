@@ -1,3 +1,5 @@
+import 'package:movieapp_javan_devtest/models/genre_model.dart';
+
 class DetailMovieModel {
   DetailMovieModel({
     this.backdropPath,
@@ -27,10 +29,11 @@ class DetailMovieModel {
   double? voteAverage;
   int? voteCount;
 
+  List<GenreModel>? genreModel;
+
   // String? trailerId;
   // MovieImageModel? movieImage;
   // List<CastModel>? castList;
-  // List<GenreModel>? genreList;
 
   factory DetailMovieModel.fromJson(Map<String, dynamic> json) =>
       DetailMovieModel(

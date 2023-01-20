@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
+import 'package:movieapp_javan_devtest/models/genre_model.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
 
 class ApiService {
@@ -78,6 +79,23 @@ class ApiService {
       List<MovieModel> upcomingList =
           upcoming.map((e) => MovieModel.fromJson(e)).toList();
       return upcomingList;
+    } catch (e) {
+      print(e);
+      throw Exception(e.toString());
+    }
+  }
+
+  // GET Genre List API
+  Future<List<GenreModel>> getGenreList() async {
+    try {
+      print('Genre List API Called');
+      final response = await _dio.get(
+        '$baseUrl/genre/movie/list?$apiKey&language=en-US',
+      );
+      var genres = response.data['genres'] as List;
+      List<GenreModel> genreList =
+          genres.map((e) => GenreModel.fromJson(e)).toList();
+      return genreList;
     } catch (e) {
       print(e);
       throw Exception(e.toString());

@@ -7,43 +7,44 @@ part 'top_rated_event.dart';
 part 'top_rated_state.dart';
 
 class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
-  TopRatedBloc() : super(TopRatedInitial()) {
-    on<TopRatedEvent>((event, emit) async {
-      if (event is TopRatedEventStarted) {
-        emit(TopRatedLoading());
-        try {
-          List<MovieModel> movieList;
-          movieList = await ApiService().getTopRatedMovie();
+  TopRatedBloc() : super(TopRatedInitial());
+  // {
+  //   on<TopRatedEvent>((event, emit) async {
+  //     if (event is TopRatedEventStarted) {
+  //       emit(TopRatedLoading());
+  //       try {
+  //         List<MovieModel> movieList;
+  //         movieList = await ApiService().getTopRatedMovie();
 
-          emit(TopRatedSuccess(movieList));
-        } catch (e) {
-          emit(TopRatedError(e.toString()));
-        }
-      }
-    });
+  //         emit(TopRatedSuccess(movieList));
+  //       } catch (e) {
+  //         emit(TopRatedError(e.toString()));
+  //       }
+  //     }
+  //   });
+  // }
+
+  @override
+  Stream<TopRatedState> mapEventToState(TopRatedEvent event) async* {
+    if (event is TopRatedEventStarted) {
+      yield* _mapTopRatedEventToState(event.movieId, event.query);
+    }
   }
 
-  // @override
-  // Stream<TopRatedState> mapEventToState(TopRatedEvent event) async* {
-  //   if (event is TopRatedEventStarted) {
-  //     yield* _mapTopRatedEventToState(event.movieId, event.query);
-  //   }
-  // }
+  Stream<TopRatedState> _mapTopRatedEventToState(
+    int movieId,
+    String query,
+  ) async* {
+    final service = ApiService();
+    yield TopRatedLoading();
 
-  // Stream<TopRatedState> _mapTopRatedEventToState(
-  //   int movieId,
-  //   String query,
-  // ) async* {
-  //   final service = ApiService();
-  //   yield TopRatedLoading();
+    try {
+      List<MovieModel> movieList;
+      movieList = await service.getTopRatedMovie();
 
-  //   try {
-  //     List<MovieModel> movieList;
-  //     movieList = await service.getTopRatedMovie();
-
-  //     yield TopRatedSuccess(movieList);
-  //   } catch (e) {
-  //     yield TopRatedError(e.toString());
-  //   }
-  // }
+      yield TopRatedSuccess(movieList);
+    } catch (e) {
+      yield TopRatedError(e.toString());
+    }
+  }
 }
