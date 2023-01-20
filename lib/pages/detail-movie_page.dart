@@ -261,8 +261,8 @@ class DetailMoviePage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: defaultRadius),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Genres',
@@ -271,13 +271,57 @@ class DetailMoviePage extends StatelessWidget {
                             fontWeight: semiBold,
                           ),
                         ),
-                        Text(
-                          detailMovieModel.genreModel![0].name!,
-                          style: blackTextStyle.copyWith(
-                            fontSize: 12,
-                            fontWeight: light,
-                          ),
+                        Row(
+                          children: detailMovieModel.genres!
+                              .map(
+                                (genre) => Container(
+                                  padding: const EdgeInsets.all(6),
+                                  margin: const EdgeInsets.only(
+                                    right: 4,
+                                    top: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      defaultMargin,
+                                    ),
+                                    color: grayColor,
+                                  ),
+                                  child: Text(
+                                    '${genre.name!} ',
+                                    style: blackTextStyle.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: light,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
                         )
+                        // RichText(
+                        //   text: TextSpan(
+                        //     text: '${detailMovieModel.genres![0].name}, ',
+                        //     style: blackTextStyle.copyWith(
+                        //       fontSize: 12,
+                        //       fontWeight: light,
+                        //     ),
+                        //     children: [
+                        //       TextSpan(
+                        //         text: '${detailMovieModel.genres![1].name!}, ',
+                        //         style: blackTextStyle.copyWith(
+                        //           fontSize: 12,
+                        //           fontWeight: light,
+                        //         ),
+                        //       ),
+                        //       TextSpan(
+                        //         text: detailMovieModel.genres![2].name!,
+                        //         style: blackTextStyle.copyWith(
+                        //           fontSize: 12,
+                        //           fontWeight: light,
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],

@@ -478,13 +478,13 @@ class DashboardPage extends StatelessWidget {
           create: (context) => MovieBloc()..add(MovieEventStarted(0, '')),
         ),
         BlocProvider<TopRatedBloc>(
-          create: (context) => TopRatedBloc()..add(TopRatedEventStarted(0, '')),
+          create: (context) => TopRatedBloc()..add(TopRatedEventStarted(1, '')),
         ),
         BlocProvider(
-          create: (context) => PopularBloc()..add(PopularEventStarted(0, '')),
+          create: (context) => PopularBloc()..add(PopularEventStarted(2, '')),
         ),
         BlocProvider(
-          create: (context) => UpcomingBloc()..add(UpcomingEventStarted(0, '')),
+          create: (context) => UpcomingBloc()..add(UpcomingEventStarted(3, '')),
         )
       ],
       child: Scaffold(

@@ -15,6 +15,9 @@ class ApiService {
       final response = await _dio.get('$baseUrl/movie/$movieId?$apiKey');
       DetailMovieModel detailMovie = DetailMovieModel.fromJson(response.data);
 
+      // Return Genre API
+      // detailMovie.genreModel = await getGenreList(movieId);
+
       return detailMovie;
     } catch (e) {
       print(e);

@@ -14,6 +14,7 @@ class DetailMovieModel {
     this.title,
     this.voteAverage,
     this.voteCount,
+    this.genres,
   });
 
   String? backdropPath;
@@ -28,8 +29,7 @@ class DetailMovieModel {
   String? title;
   double? voteAverage;
   int? voteCount;
-
-  List<GenreModel>? genreModel;
+  List<GenreModel>? genres;
 
   // String? trailerId;
   // MovieImageModel? movieImage;
@@ -49,6 +49,9 @@ class DetailMovieModel {
         title: json["title"],
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
+        genres: List<GenreModel>.from(
+          json["genres"].map((x) => GenreModel.fromJson(x)),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -64,5 +67,6 @@ class DetailMovieModel {
         "title": title,
         "vote_average": voteAverage,
         "vote_count": voteCount,
+        "genres": List<dynamic>.from(genres!.map((e) => e.toJson())),
       };
 }
