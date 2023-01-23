@@ -117,4 +117,19 @@ class ApiService {
       throw Exception(e.toString());
     }
   }
+
+  // GET Search Movie API
+  Future<List<MovieModel>> getSearchResult(String query) async {
+    try {
+      final response = await _dio.get(
+          '$baseUrl/search/movie?query=$query&$apiKey&language=en-US&page=1');
+      var search = response.data['results'] as List;
+      List<MovieModel> searchResult =
+          search.map((e) => MovieModel.fromJson(e)).toList();
+      return searchResult;
+    } catch (e) {
+      print(e);
+      throw Exception(e.toString());
+    }
+  }
 }

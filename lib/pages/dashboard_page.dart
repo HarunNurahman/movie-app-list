@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/movie_bloc/movie_bloc.dart';
+import 'package:movieapp_javan_devtest/bloc/search_bloc/search_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
@@ -485,7 +486,10 @@ class DashboardPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => UpcomingBloc()..add(UpcomingEventStarted(3, '')),
-        )
+        ),
+        BlocProvider(
+          create: (context) => SearchBloc()..add(SearchsEventStarted('')),
+        ),
       ],
       child: Scaffold(
         drawer: drawer(),
