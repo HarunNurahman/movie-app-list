@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../bloc/detail-movie_bloc/detail_movie_bloc.dart';
 
@@ -107,48 +108,67 @@ class DetailMoviePage extends StatelessWidget {
       }
 
       Widget trailerBox() {
-        return Container(
-          width: double.infinity,
-          margin: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.13,
-          ),
-          padding: EdgeInsets.symmetric(
-            horizontal: defaultRadius,
-            vertical: 20,
-          ),
-          decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(defaultRadius),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Trailers',
-                style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: semiBold,
+        return BlocBuilder<DetailMovieBloc, DetailMovieState>(
+          builder: (context, state) {
+            if (state is DetailMovieLoading) {
+              return SizedBox();
+            } else if (state is DetailMovieSuccess) {
+              DetailMovieModel detailMovieModel = state.detailMovie;
+              return Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.13,
                 ),
-              ),
-              SizedBox(height: defaultRadius),
-              // Trailer video player
-              // YoutubePlayer(
-              //   controller: youtubeController!,
-              //   showVideoProgressIndicator: true,
-              //   onReady: () => print('Ready'),
-              //   bottomActions: [
-              //     CurrentPosition(),
-              //     ProgressBar(
-              //       isExpanded: true,
-              //       colors: ProgressBarColors(
-              //         playedColor: Colors.red,
-              //         handleColor: Colors.redAccent,
-              //       ),
-              //     )
-              //   ],
-              // )
-            ],
-          ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: defaultRadius,
+                  vertical: 20,
+                ),
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(defaultRadius),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Trailers',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 16,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+                    SizedBox(height: defaultRadius),
+
+                    // Trailer video player
+                    YoutubePlayer(
+                      controller: YoutubePlayerController(
+                        initialVideoId: detailMovieModel.trailerId!,
+                        flags: const YoutubePlayerFlags(
+                          autoPlay: false,
+                          mute: true,
+                          forceHD: true,
+                        ),
+                      ),
+                      showVideoProgressIndicator: true,
+                      onReady: () => print('Ready'),
+                      bottomActions: [
+                        CurrentPosition(),
+                        ProgressBar(
+                          isExpanded: true,
+                          colors: const ProgressBarColors(
+                            playedColor: Colors.red,
+                            handleColor: Colors.redAccent,
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              );
+            } else {
+              return SizedBox();
+            }
+          },
         );
       }
 
@@ -271,31 +291,34 @@ class DetailMoviePage extends StatelessWidget {
                             fontWeight: semiBold,
                           ),
                         ),
-                        Row(
-                          children: detailMovieModel.genres!
-                              .map(
-                                (genre) => Container(
-                                  padding: const EdgeInsets.all(6),
-                                  margin: const EdgeInsets.only(
-                                    right: 4,
-                                    top: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                      defaultMargin,
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: detailMovieModel.genres!
+                                .map(
+                                  (genre) => Container(
+                                    padding: const EdgeInsets.all(6),
+                                    margin: const EdgeInsets.only(
+                                      right: 4,
+                                      top: 8,
                                     ),
-                                    color: grayColor,
-                                  ),
-                                  child: Text(
-                                    '${genre.name!} ',
-                                    style: blackTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: light,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                        defaultMargin,
+                                      ),
+                                      color: grayColor,
+                                    ),
+                                    child: Text(
+                                      '${genre.name!} ',
+                                      style: blackTextStyle.copyWith(
+                                        fontSize: 12,
+                                        fontWeight: light,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )
-                              .toList(),
+                                )
+                                .toList(),
+                          ),
                         )
                         // RichText(
                         //   text: TextSpan(

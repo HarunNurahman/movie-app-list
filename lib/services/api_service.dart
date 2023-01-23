@@ -17,6 +17,7 @@ class ApiService {
 
       // Return Genre API
       // detailMovie.genreModel = await getGenreList(movieId);
+      detailMovie.trailerId = await getYoutubeId(movieId);
 
       return detailMovie;
     } catch (e) {
@@ -99,6 +100,18 @@ class ApiService {
       List<GenreModel> genreList =
           genres.map((e) => GenreModel.fromJson(e)).toList();
       return genreList;
+    } catch (e) {
+      print(e);
+      throw Exception(e.toString());
+    }
+  }
+
+  // GET Video or Trailer ID API
+  Future<String> getYoutubeId(int id) async {
+    try {
+      final response = await _dio.get('$baseUrl/movie/$id/videos?$apiKey');
+      var youtubeID = response.data['results'][0]['key'];
+      return youtubeID;
     } catch (e) {
       print(e);
       throw Exception(e.toString());

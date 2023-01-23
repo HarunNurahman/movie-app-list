@@ -30,8 +30,8 @@ class DetailMovieModel {
   double? voteAverage;
   int? voteCount;
   List<GenreModel>? genres;
+  String? trailerId;
 
-  // String? trailerId;
   // MovieImageModel? movieImage;
   // List<CastModel>? castList;
 
