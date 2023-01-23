@@ -5,7 +5,8 @@ import 'package:movieapp_javan_devtest/configs/styles.dart';
 class UpcomingCard extends StatelessWidget {
   final String imgUrl;
   final String movieTitle;
-  final DateTime releaseDate;
+  final String releaseDate;
+  // final DateTime releaseDate;
   final Function() onTap;
   const UpcomingCard({
     super.key,

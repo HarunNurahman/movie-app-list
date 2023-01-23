@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 
 import '../../bloc/search_bloc/search_bloc.dart';
 import '../../configs/styles.dart';
@@ -48,57 +49,15 @@ class MySearchDelegate extends SearchDelegate {
               ),
             );
           } else if (state is SearchSuccess) {
+            String imgUrl = 'https://image.tmdb.org/t/p/original';
             List<MovieModel> search = state.searchResult;
             return ListView.builder(
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(search[index].posterPath!),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '${search[index].title}',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: whiteColor,
-                            ),
-                            overflow: TextOverflow.clip,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              search[index].releaseDate.toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: semiBold,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              '${search[index].voteAverage}',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: light,
-                              ),
-                            ),
-                          ])
-                    ],
-                  ),
+                return NowPlayingCard(
+                  imgUrl: '$imgUrl/${search[index].posterPath!}',
+                  movieTitle: search[index].title!,
+                  releaseDate: search[index].releaseDate!,
+                  onTap: () {},
                 );
               },
             );
