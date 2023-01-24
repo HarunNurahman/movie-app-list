@@ -4,6 +4,7 @@ import 'package:movieapp_javan_devtest/bloc/movie_bloc/movie_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/search_bloc/search_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
+import 'package:movieapp_javan_devtest/pages/now-playing_page.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
@@ -32,6 +33,7 @@ class DashboardPage extends StatelessWidget {
             fontWeight: medium,
           ),
         ),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {
@@ -85,7 +87,7 @@ class DashboardPage extends StatelessWidget {
             ),
             // Now Playing Button
             ListTile(
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed('/now-playing'),
               leading: Icon(Icons.play_circle, color: blackColor),
               title: Text('Now Playing', style: blackTextStyle),
             ),
@@ -131,6 +133,7 @@ class DashboardPage extends StatelessWidget {
               );
             } else if (state is MovieSuccess) {
               List<MovieModel> movie = state.movieList;
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -147,7 +150,7 @@ class DashboardPage extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print('nowplaying');
+                          Navigator.pushNamed(context, '/now-playing');
                         },
                         child: Text(
                           'More',

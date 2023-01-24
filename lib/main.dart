@@ -2,6 +2,7 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp_javan_devtest/pages/dashboard_page.dart';
+import 'package:movieapp_javan_devtest/pages/now-playing_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/': (context) => const DashboardPage(),
+        '/now-playing': (context) => const NowPlaying(),
       },
       debugShowCheckedModeBanner: false,
       // // Device Preview // //
