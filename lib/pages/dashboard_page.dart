@@ -4,7 +4,6 @@ import 'package:movieapp_javan_devtest/bloc/movie_bloc/movie_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/search_bloc/search_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
-import 'package:movieapp_javan_devtest/pages/now-playing_page.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
@@ -93,13 +92,13 @@ class DashboardPage extends StatelessWidget {
             ),
             // Top Rated Movie Button
             ListTile(
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed('/top-rated'),
               leading: Icon(Icons.auto_graph, color: blackColor),
               title: Text('Top Rated', style: blackTextStyle),
             ),
             // Upcoming Movie Button
             ListTile(
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed('/upcoming'),
               leading: Icon(Icons.live_tv, color: blackColor),
               title: Text('Upcoming Movies', style: blackTextStyle),
             ),
@@ -149,9 +148,8 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/now-playing');
-                        },
+                        onTap: () =>
+                            Navigator.pushNamed(context, '/now-playing'),
                         child: Text(
                           'More',
                           style: grayTextStyle.copyWith(
@@ -223,6 +221,7 @@ class DashboardPage extends StatelessWidget {
               );
             } else if (state is TopRatedSuccess) {
               List<MovieModel> movie = state.movieList;
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -238,9 +237,7 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          print('top rated movie');
-                        },
+                        onTap: () => Navigator.pushNamed(context, '/top-rated'),
                         child: Text(
                           'More',
                           style: grayTextStyle.copyWith(

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/movie_model.dart';
-import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp_javan_devtest/bloc/top-rated_bloc/top_rated_bloc.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/top-rated_card.dart';
 
-import '../bloc/movie_bloc/movie_bloc.dart';
+import '../configs/styles.dart';
+import '../models/movie_model.dart';
+import 'detail-movie_page.dart';
 
-class NowPlaying extends StatelessWidget {
-  const NowPlaying({super.key});
+class TopRated extends StatelessWidget {
+  const TopRated({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class NowPlaying extends StatelessWidget {
     PreferredSizeWidget appBar() {
       return AppBar(
         title: Text(
-          'Now Playing',
+          'Top Rated Movie',
           style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: medium),
         ),
         centerTitle: true,
@@ -68,7 +68,7 @@ class NowPlaying extends StatelessWidget {
             ),
             // Top Rated Movie Button
             ListTile(
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed('/top-rated'),
               leading: Icon(Icons.auto_graph, color: blackColor),
               title: Text('Top Rated', style: blackTextStyle),
             ),
@@ -92,13 +92,14 @@ class NowPlaying extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider<MovieBloc>(
-          create: (context) => MovieBloc()..add(const MovieEventStarted(0, '')),
+        BlocProvider<TopRatedBloc>(
+          create: (context) =>
+              TopRatedBloc()..add(const TopRatedEventStarted(0, '')),
         ),
       ],
-      child: BlocBuilder<MovieBloc, MovieState>(
+      child: BlocBuilder<TopRatedBloc, TopRatedState>(
         builder: (context, state) {
-          if (state is MovieLoading) {
+          if (state is TopRatedLoading) {
             return Center(
               child: SizedBox(
                 width: 24,
@@ -108,7 +109,7 @@ class NowPlaying extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is MovieSuccess) {
+          } else if (state is TopRatedSuccess) {
             String imgUrl = 'https://image.tmdb.org/t/p/original';
 
             List<MovieModel> movie = state.movieList;
@@ -128,7 +129,7 @@ class NowPlaying extends StatelessWidget {
                   itemCount: movie.length = 10,
                   itemBuilder: (context, index) {
                     MovieModel movieModel = movie[index];
-                    return NowPlayingCard(
+                    return TopRatedCard(
                       imgUrl: '$imgUrl/${movieModel.posterPath!}',
                       movieTitle: movieModel.title!,
                       releaseDate: movieModel.releaseDate!,
@@ -136,8 +137,9 @@ class NowPlaying extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                DetailMoviePage(detailMovie: movieModel),
+                            builder: (context) => DetailMoviePage(
+                              detailMovie: movieModel,
+                            ),
                           ),
                         );
                       },
