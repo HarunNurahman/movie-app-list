@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/search-result_card.dart';
 
 import '../../bloc/search_bloc/search_bloc.dart';
 import '../../configs/styles.dart';
@@ -52,11 +53,12 @@ class MySearchDelegate extends SearchDelegate {
             String imgUrl = 'https://image.tmdb.org/t/p/original';
             List<MovieModel> search = state.searchResult;
             return ListView.builder(
+              itemCount: search.length,
               itemBuilder: (context, index) {
-                return NowPlayingCard(
-                  imgUrl: '$imgUrl/${search[index].posterPath!}',
+                return SearchResultCard(
+                  imgUrl: '$imgUrl/${search[index].posterPath}',
                   movieTitle: search[index].title!,
-                  releaseDate: search[index].releaseDate!,
+                  rating: search[index].voteAverage.toString(),
                   onTap: () {},
                 );
               },

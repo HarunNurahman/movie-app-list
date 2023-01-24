@@ -79,7 +79,7 @@ class DashboardPage extends StatelessWidget {
             ),
             // Home Button
             ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/dashboard'),
+              onTap: () => Navigator.of(context).pushNamed('/'),
               leading: Icon(Icons.home, color: blackColor),
               title: Text('Home', style: blackTextStyle),
             ),
