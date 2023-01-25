@@ -31,7 +31,6 @@ environment:
 dependencies:
   cached_network_image: ^3.2.3
   cupertino_icons: ^1.0.2
-  # device_preview: ^1.1.0
   dio: ^4.0.6
   equatable: ^2.0.5
   flutter:
@@ -39,7 +38,6 @@ dependencies:
   flutter_bloc: 7.1.0
   google_fonts: ^3.0.1
   http: ^0.13.5
-  # provider: ^6.0.5
   youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
