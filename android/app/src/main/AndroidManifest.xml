@@ -2,7 +2,7 @@
     package="com.example.movieapp_javan_devtest">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="movieapp_javan_devtest"
+        android:label="Movie App List"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
