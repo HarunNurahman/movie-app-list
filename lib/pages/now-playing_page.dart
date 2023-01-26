@@ -68,7 +68,7 @@ class NowPlaying extends StatelessWidget {
             ),
             // Top Rated Movie Button
             ListTile(
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed('/top-rated'),
               leading: Icon(Icons.auto_graph, color: blackColor),
               title: Text('Top Rated', style: blackTextStyle),
             ),

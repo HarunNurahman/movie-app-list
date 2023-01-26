@@ -5,6 +5,7 @@ import 'package:movieapp_javan_devtest/pages/widgets/search-result_card.dart';
 
 import '../../bloc/search_bloc/search_bloc.dart';
 import '../../configs/styles.dart';
+import '../detail-movie_page.dart';
 
 class MySearchDelegate extends SearchDelegate {
   @override
@@ -51,15 +52,23 @@ class MySearchDelegate extends SearchDelegate {
           } else if (state is SearchSuccess) {
             String imgUrl = 'https://image.tmdb.org/t/p/original';
             List<MovieModel> search = state.searchResult;
+
             return ListView.builder(
               itemCount: search.length,
               itemBuilder: (context, index) {
                 return SearchResultCard(
-                  imgUrl: '$imgUrl/${search[index].posterPath}',
-                  movieTitle: search[index].title!,
-                  rating: search[index].voteAverage.toString(),
-                  onTap: () {},
-                );
+                    imgUrl: '$imgUrl/${search[index].posterPath}',
+                    movieTitle: search[index].title!,
+                    rating: search[index].voteAverage.toString(),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailMoviePage(detailMovie: search[index]),
+                        ),
+                      );
+                    });
               },
             );
           } else {
