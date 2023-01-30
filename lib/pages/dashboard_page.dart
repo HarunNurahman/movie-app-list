@@ -25,12 +25,11 @@ class DashboardPage extends StatelessWidget {
     // App bar widget
     PreferredSizeWidget appBar() {
       return AppBar(
+        elevation: 0,
+        backgroundColor: transparent,
         title: Text(
-          'Home',
-          style: whiteTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: medium,
-          ),
+          'Movie App List',
+          style: primaryTextStyle.copyWith(fontSize: 18, fontWeight: semiBold),
         ),
         centerTitle: true,
         actions: [
@@ -41,9 +40,10 @@ class DashboardPage extends StatelessWidget {
                 delegate: MySearchDelegate(),
               );
             },
-            icon: Icon(Icons.search, color: whiteColor),
+            icon: Icon(Icons.search, color: blueColor),
           ),
         ],
+        automaticallyImplyLeading: false,
       );
     }
 
@@ -117,7 +117,7 @@ class DashboardPage extends StatelessWidget {
     // Now playing movie widget (movie title, 'more' button, now playing card)
     Widget nowPlayingBox() {
       return Container(
-        margin: EdgeInsets.symmetric(vertical: defaultMargin),
+        margin: EdgeInsets.only(top: 16, bottom: defaultMargin),
         child: BlocBuilder<MovieBloc, MovieState>(
           builder: (context, state) {
             if (state is MovieLoading) {
@@ -126,13 +126,12 @@ class DashboardPage extends StatelessWidget {
                   width: 24,
                   height: 24,
                   child: CircularProgressIndicator(
-                    color: grayColor,
+                    color: blueColor,
                   ),
                 ),
               );
             } else if (state is MovieSuccess) {
               List<MovieModel> movie = state.movieList;
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -141,20 +140,33 @@ class DashboardPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Now Playing',
-                        style: blackTextStyle.copyWith(
+                        'Now Showing',
+                        style: primaryTextStyle.copyWith(
                           fontSize: 16,
-                          fontWeight: medium,
+                          fontWeight: semiBold,
                         ),
                       ),
                       GestureDetector(
-                        onTap: () =>
-                            Navigator.pushNamed(context, '/now-playing'),
-                        child: Text(
-                          'More',
-                          style: grayTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: medium,
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/now-playing',
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 8,
+                          ),
+                          decoration: BoxDecoration(
+                              color: transparent,
+                              border: Border.all(color: gray3Color, width: 1),
+                              borderRadius:
+                                  BorderRadius.circular(defaultMargin)),
+                          child: Text(
+                            'See More',
+                            style: grayTextStyle.copyWith(
+                              color: gray2Color,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
                       )
@@ -169,7 +181,7 @@ class DashboardPage extends StatelessWidget {
                         return NowPlayingCard(
                           imgUrl: '$imgUrl/${nowPlayingList.posterPath}',
                           movieTitle: nowPlayingList.title!,
-                          releaseDate: nowPlayingList.releaseDate!,
+                          rating: nowPlayingList.voteAverage.toString(),
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -492,7 +504,7 @@ class DashboardPage extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        drawer: drawer(),
+        // drawer: drawer(),
         appBar: appBar(),
         body: SingleChildScrollView(
           child: Container(

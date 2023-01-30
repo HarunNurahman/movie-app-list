@@ -131,7 +131,8 @@ class NowPlaying extends StatelessWidget {
                     return NowPlayingCard(
                       imgUrl: '$imgUrl/${movieModel.posterPath!}',
                       movieTitle: movieModel.title!,
-                      releaseDate: movieModel.releaseDate!,
+                      // releaseDate: movieModel.releaseDate!,
+                      rating: movieModel.voteAverage.toString(),
                       onTap: () {
                         Navigator.push(
                           context,
