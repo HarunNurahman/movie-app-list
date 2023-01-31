@@ -10,6 +10,7 @@ final String apiKey = 'YOUR_TMDB_API_KEY';
 ```
 
 # Demo App
+https://user-images.githubusercontent.com/16952129/215656313-6b899702-ad29-4fc6-85d6-150d470df2a7.mp4
 
 ## Features
 
