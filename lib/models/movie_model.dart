@@ -1,5 +1,3 @@
-import 'package:movieapp_javan_devtest/models/genre_model.dart';
-
 class MovieModel {
   MovieModel({
     this.backdropPath,
@@ -14,7 +12,7 @@ class MovieModel {
     this.video,
     this.voteAverage,
     this.voteCount,
-    // this.genreModel,
+    this.genreId,
   });
 
   String? backdropPath;
@@ -30,7 +28,7 @@ class MovieModel {
   bool? video;
   double? voteAverage;
   int? voteCount;
-  // List<GenreModel>? genreModel;
+  List<int>? genreId;
 
   factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         backdropPath: json["backdrop_path"],
@@ -46,9 +44,9 @@ class MovieModel {
         video: json["video"],
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
-        // genreModel: List<GenreModel>.from(
-        //   json["genre_ids"].map((x) => GenreModel.fromJson(x)),
-        // ),
+        genreId: List<int>.from(
+          json["genre_ids"].map((x) => x),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,6 +63,6 @@ class MovieModel {
         "video": video,
         "vote_average": voteAverage,
         "vote_count": voteCount,
-        // "genre_ids": List<dynamic>.from(genreModel!.map((e) => e.toJson())),
+        "genre_ids": List<dynamic>.from(genreId!.map((e) => e)),
       };
 }

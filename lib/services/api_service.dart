@@ -20,7 +20,6 @@ class ApiService {
 
       return detailMovie;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -28,15 +27,12 @@ class ApiService {
   // GET Now Playing API
   Future<List<MovieModel>> getNowPlayingMovie() async {
     try {
-      print('Now Playing API Called');
-
       final response = await _dio.get('$baseUrl/movie/now_playing?$apiKey');
       var nowPlaying = response.data['results'] as List;
       List<MovieModel> npList =
           nowPlaying.map((e) => MovieModel.fromJson(e)).toList();
       return npList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -44,15 +40,12 @@ class ApiService {
   // GET Top Rated Movie API
   Future<List<MovieModel>> getTopRatedMovie() async {
     try {
-      print('Top Rated API Called');
-
       final response = await _dio.get('$baseUrl/movie/top_rated?$apiKey');
       var topRated = response.data['results'] as List;
       List<MovieModel> trList =
           topRated.map((e) => MovieModel.fromJson(e)).toList();
       return trList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -60,8 +53,6 @@ class ApiService {
   // GET Popular Movie API
   Future<List<MovieModel>> getPopularMovie() async {
     try {
-      print('Popular API Called');
-
       final response = await _dio.get('$baseUrl/movie/popular?$apiKey');
       var popular = response.data['results'] as List;
       List<MovieModel> popularList =
@@ -69,7 +60,6 @@ class ApiService {
 
       return popularList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -77,14 +67,12 @@ class ApiService {
   // GET Upcoming Movie API
   Future<List<MovieModel>> getUpcomingMovie() async {
     try {
-      print('Upcoming API Called');
       final response = await _dio.get('$baseUrl/movie/upcoming?$apiKey');
       var upcoming = response.data['results'] as List;
       List<MovieModel> upcomingList =
           upcoming.map((e) => MovieModel.fromJson(e)).toList();
       return upcomingList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -92,7 +80,6 @@ class ApiService {
   // GET Genre List API
   Future<List<GenreModel>> getGenreList() async {
     try {
-      print('Genre List API Called');
       final response = await _dio.get(
         '$baseUrl/genre/movie/list?$apiKey&language=en-US',
       );
@@ -101,7 +88,6 @@ class ApiService {
           genres.map((e) => GenreModel.fromJson(e)).toList();
       return genreList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -113,7 +99,6 @@ class ApiService {
       var youtubeID = response.data['results'][0]['key'];
       return youtubeID;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -128,7 +113,6 @@ class ApiService {
           search.map((e) => MovieModel.fromJson(e)).toList();
       return searchResult;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }

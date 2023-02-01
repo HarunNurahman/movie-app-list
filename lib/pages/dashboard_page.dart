@@ -1,10 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/movie_bloc/movie_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/search_bloc/search_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
+import 'package:movieapp_javan_devtest/models/genre_model.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/genre_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
@@ -362,32 +365,38 @@ class DashboardPage extends StatelessWidget {
                   ),
                   Container(
                     height: 300,
-                    child: Expanded(
-                      child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          MovieModel popularList = movie[index];
-                          return PopularCard(
-                            
-                            imgUrl: '$imgUrl/${popularList.posterPath}',
-                            movieTitle: popularList.title!,
-                            rating: popularList.voteAverage.toString(),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailMoviePage(
-                                  detailMovie: popularList,
-                                ),
+                    child: ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        MovieModel popularList = movie[index];
+                        return PopularCard(
+                          imgUrl: '$imgUrl/${popularList.posterPath}',
+                          movieTitle: popularList.title!,
+                          rating: popularList.voteAverage.toString(),
+                          genreList: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return GenreCard(
+                                genre: popularList.genreId![index].toString(),
+                              );
+                            },
+                            itemCount: popularList.genreId!.length = 3,
+                          ),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailMoviePage(
+                                detailMovie: popularList,
                               ),
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) => VerticalDivider(
-                          width: 16,
-                          color: transparent,
-                        ),
-                        itemCount: movie.length = 7,
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => VerticalDivider(
+                        width: 16,
+                        color: transparent,
                       ),
+                      itemCount: movie.length = 7,
                     ),
                   )
                 ],
