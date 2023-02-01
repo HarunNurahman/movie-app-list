@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
 
 class NowPlayingCard extends StatelessWidget {
@@ -23,7 +22,7 @@ class NowPlayingCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(top: 16, right: 16),
+        margin: const EdgeInsets.only(top: 16),
         width: 140,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultRadius),
@@ -38,23 +37,15 @@ class NowPlayingCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             // Title
-            Marquee(
-              text: movieTitle,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Text(
+              movieTitle,
               style: blackTextStyle.copyWith(
                 fontSize: 14,
-                fontWeight: medium,
+                fontWeight: semiBold,
               ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            // Text(
-            //   movieTitle,
-            //   style: blackTextStyle.copyWith(
-            //     fontSize: 14,
-            //     fontWeight: medium,
-            //   ),
-            //   maxLines: 1,
-            //   overflow: TextOverflow.ellipsis,
-            // ),
             const SizedBox(height: 8),
             // Rating
             Row(

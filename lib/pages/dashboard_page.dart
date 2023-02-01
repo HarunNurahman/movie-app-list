@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/movie_bloc/movie_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/search_bloc/search_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
@@ -157,10 +158,10 @@ class DashboardPage extends StatelessWidget {
                             horizontal: 8,
                           ),
                           decoration: BoxDecoration(
-                              color: transparent,
-                              border: Border.all(color: gray3Color, width: 1),
-                              borderRadius:
-                                  BorderRadius.circular(defaultMargin)),
+                            color: transparent,
+                            border: Border.all(color: gray3Color, width: 1),
+                            borderRadius: BorderRadius.circular(defaultMargin),
+                          ),
                           child: Text(
                             'See More',
                             style: grayTextStyle.copyWith(
@@ -173,7 +174,8 @@ class DashboardPage extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 1.75,
+                    // height: MediaQuery.of(context).size.height / 1.75,
+                    height: 300,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
@@ -193,7 +195,7 @@ class DashboardPage extends StatelessWidget {
                       },
                       separatorBuilder: (context, index) => VerticalDivider(
                         color: transparent,
-                        width: 8,
+                        width: 16,
                       ),
                       itemCount: movie.length = 7,
                     ),
@@ -306,9 +308,7 @@ class DashboardPage extends StatelessWidget {
     // Popular movie widget (movie title, 'more' button, popular movie card)
     Widget popularMovieBox() {
       return Container(
-        margin: EdgeInsets.only(
-          bottom: defaultMargin,
-        ),
+        margin: EdgeInsets.only(bottom: defaultMargin),
         child: BlocBuilder<PopularBloc, PopularState>(
           builder: (context, state) {
             if (state is PopularLoading) {
@@ -332,49 +332,62 @@ class DashboardPage extends StatelessWidget {
                     children: [
                       Text(
                         'Popular Movie',
-                        style: blackTextStyle.copyWith(
+                        style: primaryTextStyle.copyWith(
                           fontSize: 16,
-                          fontWeight: medium,
+                          fontWeight: semiBold,
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          print('popular movie');
-                        },
-                        child: Text(
-                          'More',
-                          style: grayTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: medium,
+                        onTap: () => Navigator.pushNamed(context, '/popular'),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: transparent,
+                            border: Border.all(color: gray3Color, width: 1),
+                            borderRadius: BorderRadius.circular(defaultMargin),
+                          ),
+                          child: Text(
+                            'See More',
+                            style: grayTextStyle.copyWith(
+                              color: gray2Color,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 2.15,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        MovieModel popularList = movie[index];
-                        return PopularCard(
-                          imgUrl: '$imgUrl/${popularList.posterPath}',
-                          movieTitle: popularList.title!,
-                          releaseDate: popularList.releaseDate!,
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailMoviePage(detailMovie: popularList),
+                    height: 300,
+                    child: Expanded(
+                      child: ListView.separated(
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          MovieModel popularList = movie[index];
+                          return PopularCard(
+                            
+                            imgUrl: '$imgUrl/${popularList.posterPath}',
+                            movieTitle: popularList.title!,
+                            rating: popularList.voteAverage.toString(),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailMoviePage(
+                                  detailMovie: popularList,
+                                ),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => VerticalDivider(
-                        width: 6,
-                        color: transparent,
+                          );
+                        },
+                        separatorBuilder: (context, index) => VerticalDivider(
+                          width: 16,
+                          color: transparent,
+                        ),
+                        itemCount: movie.length = 7,
                       ),
-                      itemCount: movie.length = 7,
                     ),
                   )
                 ],
@@ -513,9 +526,9 @@ class DashboardPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 nowPlayingBox(),
-                topRatedBox(),
+                // topRatedBox(),
                 popularMovieBox(),
-                upcomingMovieBox(),
+                // upcomingMovieBox(),
               ],
             ),
           ),

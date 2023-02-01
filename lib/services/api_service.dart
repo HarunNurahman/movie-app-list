@@ -15,7 +15,6 @@ class ApiService {
       final response = await _dio.get('$baseUrl/movie/$movieId?$apiKey');
       DetailMovieModel detailMovie = DetailMovieModel.fromJson(response.data);
 
-      // Return Genre API
       // detailMovie.genreModel = await getGenreList(movieId);
       detailMovie.trailerId = await getYoutubeId(movieId);
 
@@ -64,10 +63,11 @@ class ApiService {
       print('Popular API Called');
 
       final response = await _dio.get('$baseUrl/movie/popular?$apiKey');
-      var topRated = response.data['results'] as List;
-      List<MovieModel> trList =
-          topRated.map((e) => MovieModel.fromJson(e)).toList();
-      return trList;
+      var popular = response.data['results'] as List;
+      List<MovieModel> popularList =
+          popular.map((e) => MovieModel.fromJson(e)).toList();
+
+      return popularList;
     } catch (e) {
       print(e);
       throw Exception(e.toString());
