@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/cast_model.dart';
 import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/genre_card.dart';
 
@@ -118,7 +119,7 @@ class DetailMoviePage extends StatelessWidget {
                   Text(
                     detailMovie.title!,
                     style: blackTextStyle.copyWith(
-                      fontSize: 18,
+                      fontSize: 24,
                       fontWeight: bold,
                     ),
                     maxLines: 2,
@@ -153,6 +154,7 @@ class DetailMoviePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Movie Duration
                       Column(
@@ -174,26 +176,48 @@ class DetailMoviePage extends StatelessWidget {
                           )
                         ],
                       ),
-                      //
+                      // Release Date
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Duration',
+                            'Release Date',
                             style: subtitleTextStyle.copyWith(
                               fontSize: 12,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${detailMovieModel.runtime.toString()} Minutes',
+                            detailMovieModel.releaseDate!,
                             style: blackTextStyle.copyWith(
                               fontSize: 12,
                               fontWeight: semiBold,
                             ),
                           )
                         ],
-                      )
+                      ),
+                      // Budget
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Budget',
+                            style: subtitleTextStyle.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            AppFormat.currencyFormat(
+                              detailMovieModel.budget!.toString(),
+                            ),
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: semiBold,
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -204,7 +228,7 @@ class DetailMoviePage extends StatelessWidget {
                       Text(
                         'Description',
                         style: primaryTextStyle.copyWith(
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: bold,
                         ),
                       ),
@@ -218,6 +242,64 @@ class DetailMoviePage extends StatelessWidget {
                         textAlign: TextAlign.justify,
                         maxLines: 5,
                         overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // Cast List
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Cast',
+                        style: primaryTextStyle.copyWith(
+                          fontSize: 18,
+                          fontWeight: bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        height: 120,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            CastModel cast = detailMovieModel.castList![index];
+                            return Column(
+                              children: [
+                                Container(
+                                  height: 72,
+                                  width: 72,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                        '$imgUrl/${cast.profilePath}',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Container(
+                                  width: 72,
+                                  child: Text(
+                                    cast.name!,
+                                    style: primaryTextStyle.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: semiBold,
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          separatorBuilder: (context, index) => VerticalDivider(
+                            width: 16,
+                            color: transparent,
+                          ),
+                          itemCount: detailMovieModel.castList!.length,
+                        ),
                       )
                     ],
                   )

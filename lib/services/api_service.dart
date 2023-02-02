@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:movieapp_javan_devtest/models/cast_model.dart';
 import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
 import 'package:movieapp_javan_devtest/models/genre_model.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
@@ -15,8 +16,10 @@ class ApiService {
       final response = await _dio.get('$baseUrl/movie/$movieId?$apiKey');
       DetailMovieModel detailMovie = DetailMovieModel.fromJson(response.data);
 
+      // // Pengambilan API Dari Fungsi API Lain
       // detailMovie.genreModel = await getGenreList(movieId);
       detailMovie.trailerId = await getYoutubeId(movieId);
+      detailMovie.castList = await getCastList(movieId);
 
       return detailMovie;
     } catch (e) {
@@ -114,6 +117,26 @@ class ApiService {
           search.map((e) => MovieModel.fromJson(e)).toList();
       return searchResult;
     } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // GET Cast List API
+  Future<List<CastModel>> getCastList(int movieId) async {
+    try {
+      final response =
+          await _dio.get('$baseUrl/movie/$movieId/credits?$apiKey');
+      var list = response.data['cast'] as List;
+      List<CastModel> castList = list
+          .map((cast) => CastModel(
+                name: cast['name'],
+                profilePath: cast['profile_path'],
+                character: cast['character'],
+              ))
+          .toList();
+      return castList;
+    } catch (e) {
+      print(e);
       throw Exception(e.toString());
     }
   }

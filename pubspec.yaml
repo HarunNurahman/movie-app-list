@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: 7.1.0
   google_fonts: ^3.0.1
   http: ^0.13.5
+  intl: ^0.18.0
   marquee: ^2.2.3
   youtube_player_flutter: ^8.1.2
 
