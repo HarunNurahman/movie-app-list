@@ -1,11 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/movie_bloc/movie_bloc.dart';
 import 'package:movieapp_javan_devtest/bloc/search_bloc/search_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
-import 'package:movieapp_javan_devtest/models/genre_model.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/genre_card.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
@@ -377,10 +374,11 @@ class DashboardPage extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return GenreCard(
-                                genre: popularList.genreId![index].toString(),
+                                genre:
+                                    'ID: ${popularList.genre![index].toString()}',
                               );
                             },
-                            itemCount: popularList.genreId!.length = 3,
+                            itemCount: popularList.genre!.length = 3,
                           ),
                           onTap: () => Navigator.push(
                             context,

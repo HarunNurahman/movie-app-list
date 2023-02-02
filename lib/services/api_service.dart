@@ -33,6 +33,7 @@ class ApiService {
           nowPlaying.map((e) => MovieModel.fromJson(e)).toList();
       return npList;
     } catch (e) {
+      print(e);
       throw Exception(e.toString());
     }
   }
