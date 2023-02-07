@@ -7,25 +7,19 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  SearchBloc() : super(SearchInitial());
+  SearchBloc() : super(SearchInitial()) {
+    on<SearchEvent>((event, emit) async {
+      if (event is SearchEventStarted) {
+        emit(SearchLoading());
+        try {
+          List<MovieModel> searchResult;
+          searchResult = await ApiService().getSearchResult(event.query);
 
-  Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if (event is SearchsEventStarted) {
-      yield* _mapSearchEventToState(event.query);
-    }
-  }
-
-  Stream<SearchState> _mapSearchEventToState(String query) async* {
-    final service = ApiService();
-    yield SearchLoading();
-
-    try {
-      List<MovieModel> searchResult;
-      searchResult = await service.getSearchResult(query);
-
-      yield SearchSuccess(searchResult);
-    } catch (e) {
-      yield SearchError(e.toString());
-    }
+          emit(SearchSuccess(searchResult));
+        } catch (e) {
+          emit(SearchError(e.toString()));
+        }
+      }
+    });
   }
 }
