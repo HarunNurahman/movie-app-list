@@ -33,7 +33,31 @@ class NowPlayingCard extends StatelessWidget {
             // Poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: CachedNetworkImage(imageUrl: imgUrl, fit: BoxFit.cover),
+              child: CachedNetworkImage(
+                imageUrl: imgUrl,
+                placeholder: (context, url) => SizedBox(
+                  child: Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: blueColor,
+                      ),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  width: 140,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/error-404.png',
+                      ),
+                    ),
+                  ),
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 12),
             // Title
@@ -62,43 +86,6 @@ class NowPlayingCard extends StatelessWidget {
             )
           ],
         ),
-        // child: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     // Movie poster
-        //     ClipRRect(
-        //       borderRadius: BorderRadius.circular(defaultRadius),
-        //       child: CachedNetworkImage(imageUrl: imgUrl),
-        //     ),
-        //     Padding(
-        //       padding: const EdgeInsets.symmetric(
-        //         horizontal: 8,
-        //         vertical: 16,
-        //       ),
-        //       child: Column(
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        //           // Movie title
-        //           Text(
-        //             movieTitle,
-        //             style: blackTextStyle.copyWith(fontWeight: medium),
-        //             maxLines: 2,
-        //             overflow: TextOverflow.ellipsis,
-        //           ),
-        //           const SizedBox(height: 6),
-        //           // Release date
-        //           Text(
-        //             releaseDate.toString(),
-        //             style: grayTextStyle.copyWith(
-        //               fontSize: 12,
-        //               fontWeight: light,
-        //             ),
-        //           )
-        //         ],
-        //       ),
-        //     )
-        //   ],
-        // ),
       ),
     );
   }

@@ -9,9 +9,36 @@ import '../detail-movie_page.dart';
 
 class MySearchDelegate extends SearchDelegate {
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      // App Bar
+      appBarTheme: AppBarTheme(
+        color: blueColor,
+        elevation: 0,
+      ),
+      // Border Color
+      inputDecorationTheme: const InputDecorationTheme(
+        border: InputBorder.none,
+      ),
+      // Typing Style
+      textTheme: TextTheme(
+        titleLarge: whiteTextStyle.copyWith(
+          decoration: TextDecoration.none,
+        ),
+      ),
+      // Text Selection Style
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: whiteColor,
+        selectionColor: blueColor,
+      ),
+      hintColor: whiteColor,
+    );
+  }
+
+  @override
   Widget? buildLeading(BuildContext context) => IconButton(
         onPressed: () => close(context, null),
-        icon: const Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back_rounded),
       );
 
   @override
@@ -35,7 +62,7 @@ class MySearchDelegate extends SearchDelegate {
     return BlocProvider(
       create: (context) => SearchBloc()
         ..add(
-          SearchsEventStarted(query),
+          SearchEventStarted(query),
         ),
       child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
@@ -52,27 +79,35 @@ class MySearchDelegate extends SearchDelegate {
           } else if (state is SearchSuccess) {
             String imgUrl = 'https://image.tmdb.org/t/p/original';
             List<MovieModel> search = state.searchResult;
-
             return ListView.builder(
               itemCount: search.length,
               itemBuilder: (context, index) {
                 return SearchResultCard(
-                    imgUrl: '$imgUrl/${search[index].posterPath}',
-                    movieTitle: search[index].title!,
-                    rating: search[index].voteAverage.toString(),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetailMoviePage(detailMovie: search[index]),
-                        ),
-                      );
-                    });
+                  imgUrl: '$imgUrl/${search[index].posterPath}',
+                  movieTitle: search[index].title!,
+                  rating: search[index].voteAverage.toString(),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DetailMoviePage(detailMovie: search[index]),
+                      ),
+                    );
+                  },
+                );
               },
             );
           } else {
-            return const SizedBox();
+            return Center(
+              child: Text(
+                'Movie Not Found',
+                style: grayTextStyle.copyWith(
+                  fontSize: 24,
+                  fontWeight: bold,
+                ),
+              ),
+            );
           }
         },
       ),

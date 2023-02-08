@@ -36,6 +36,27 @@ class PopularCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: imgUrl,
                 width: 100,
+                placeholder: (context, url) => SizedBox(
+                  child: Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: blueColor,
+                      ),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  width: 140,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/error-404.png',
+                      ),
+                    ),
+                  ),
+                ),
                 fit: BoxFit.cover,
               ),
             ),

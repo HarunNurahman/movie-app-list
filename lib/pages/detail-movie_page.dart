@@ -42,6 +42,16 @@ class DetailMoviePage extends StatelessWidget {
           image: DecorationImage(
             image: CachedNetworkImageProvider(
               '$imgUrl/${detailMovie.backdropPath}',
+              errorListener: () => Container(
+                width: 140,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/images/error-404.png',
+                    ),
+                  ),
+                ),
+              ),
             ),
             fit: BoxFit.cover,
           ),
@@ -61,8 +71,18 @@ class DetailMoviePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(Icons.arrow_back_ios, color: whiteColor, size: 24),
-                Icon(Icons.more_horiz, color: whiteColor, size: 24)
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: whiteColor,
+                    size: 24,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Icon(Icons.more_horiz, color: whiteColor, size: 24),
+                )
               ],
             ),
             const SizedBox(height: 60),
@@ -274,6 +294,16 @@ class DetailMoviePage extends StatelessWidget {
                                     image: DecorationImage(
                                       image: CachedNetworkImageProvider(
                                         '$imgUrl/${cast.profilePath}',
+                                        errorListener: () => Container(
+                                          width: 140,
+                                          decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                'assets/images/error-404.png',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                       fit: BoxFit.cover,
                                     ),
