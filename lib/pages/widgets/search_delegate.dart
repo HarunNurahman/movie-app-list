@@ -86,6 +86,7 @@ class MySearchDelegate extends SearchDelegate {
                   imgUrl: '$imgUrl/${search[index].posterPath}',
                   movieTitle: search[index].title!,
                   rating: search[index].voteAverage.toString(),
+                  releaseDate: search[index].releaseDate!,
                   onTap: () {
                     Navigator.push(
                       context,

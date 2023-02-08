@@ -6,6 +6,7 @@ class SearchResultCard extends StatelessWidget {
   final String imgUrl;
   final String movieTitle;
   final String rating;
+  final String releaseDate;
   final Function() onTap;
   const SearchResultCard({
     super.key,
@@ -13,6 +14,7 @@ class SearchResultCard extends StatelessWidget {
     required this.movieTitle,
     required this.rating,
     required this.onTap,
+    required this.releaseDate,
   });
 
   @override
@@ -28,6 +30,7 @@ class SearchResultCard extends StatelessWidget {
         width: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultRadius),
+            color: blueColor
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,15 +41,6 @@ class SearchResultCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: imgUrl,
                 width: 100,
-                imageBuilder: (context, imageProvider) => Container(
-                  width: 120,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
                 placeholder: (context, url) => SizedBox(
                   child: Center(
                     child: SizedBox(
@@ -67,16 +61,20 @@ class SearchResultCard extends StatelessWidget {
             const SizedBox(width: 16),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.only(
+                  top: defaultMargin,
+                  bottom: defaultMargin,
+                  right: 16,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Movie Title
                     Text(
                       movieTitle,
-                      style: blackTextStyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: semiBold,
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 18,
+                        fontWeight: medium,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -94,6 +92,15 @@ class SearchResultCard extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 8),
+                    // Release Date
+                    Text(
+                      'Release Date - $releaseDate',
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: light,
+                      ),
                     ),
                   ],
                 ),

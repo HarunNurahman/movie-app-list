@@ -5,6 +5,7 @@ import 'package:movieapp_javan_devtest/configs/styles.dart';
 import 'package:movieapp_javan_devtest/models/cast_model.dart';
 import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
 import 'package:movieapp_javan_devtest/pages/widgets/genre_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../bloc/detail-movie_bloc/detail_movie_bloc.dart';
 import '../models/movie_model.dart';
@@ -13,9 +14,20 @@ class DetailMoviePage extends StatelessWidget {
   final MovieModel detailMovie;
   const DetailMoviePage({super.key, required this.detailMovie});
 
+  Future<void> urlLauncher(
+    String url, {
+    bool forceWebView = false,
+    bool enableJavaScript = false,
+  }) async {
+    await launchUrl(
+      Uri.parse(url),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     String imgUrl = 'https://image.tmdb.org/t/p/original';
+    String youtubeUrl = 'https://www.youtube.com/watch?v';
 
     Widget backgroundImage() {
       Widget backdropShadow() {
@@ -61,48 +73,69 @@ class DetailMoviePage extends StatelessWidget {
     }
 
     Widget header() {
-      return Container(
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Back Button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: whiteColor,
-                    size: 24,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Icon(Icons.more_horiz, color: whiteColor, size: 24),
-                )
-              ],
-            ),
-            const SizedBox(height: 60),
-            Center(
+      return BlocBuilder<DetailMovieBloc, DetailMovieState>(
+        builder: (context, state) {
+          if (state is DetailMovieSuccess) {
+            DetailMovieModel detailMovieModel = state.detailMovie;
+            return Container(
+              width: double.infinity,
+              margin:
+                  EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 18),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset('assets/icons/ic_play.png', width: 45),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Play Trailer',
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 12,
-                      fontWeight: bold,
+                  // Back Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: whiteColor,
+                          size: 24,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {},
+                        child:
+                            Icon(Icons.more_horiz, color: whiteColor, size: 24),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 60),
+                  Center(
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            final url =
+                                '$youtubeUrl=${detailMovieModel.trailerId}';
+                            await urlLauncher(url);
+                          },
+                          child: Image.asset(
+                            'assets/icons/ic_play.png',
+                            width: 45,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Play Trailer',
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 12,
+                            fontWeight: bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
       );
     }
 

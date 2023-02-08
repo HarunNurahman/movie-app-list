@@ -367,6 +367,7 @@ class DashboardPage extends StatelessWidget {
                             imgUrl: '$imgUrl/${popularList.posterPath}',
                             movieTitle: popularList.title!,
                             rating: popularList.voteAverage.toString(),
+                            releaseDate: popularList.releaseDate!,
                             genreList: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {

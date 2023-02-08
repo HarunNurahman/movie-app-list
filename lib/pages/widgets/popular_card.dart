@@ -6,6 +6,7 @@ class PopularCard extends StatelessWidget {
   final String imgUrl;
   final String movieTitle;
   final String rating;
+  final String releaseDate;
   final ListView genreList;
   final Function() onTap;
   const PopularCard({
@@ -13,6 +14,7 @@ class PopularCard extends StatelessWidget {
     required this.imgUrl,
     required this.movieTitle,
     required this.rating,
+    required this.releaseDate,
     required this.onTap,
     required this.genreList,
   });
@@ -63,7 +65,7 @@ class PopularCard extends StatelessWidget {
             const SizedBox(width: 16),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -92,6 +94,16 @@ class PopularCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 8),
+                    // Release Date
+                    Text(
+                      'Release Date - $releaseDate',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: light,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     Container(
                       height: 24,
                       margin: EdgeInsets.only(top: defaultMargin),
