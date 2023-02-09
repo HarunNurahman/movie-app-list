@@ -381,15 +381,18 @@ class DetailMoviePage extends StatelessWidget {
         ..add(
           DetailMovieEventStarted(detailMovie.id!),
         ),
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Stack(
-              children: [
-                backgroundImage(),
-                header(),
-                content(),
-              ],
+      child: WillPopScope(
+        onWillPop: () async => true,
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  backgroundImage(),
+                  header(),
+                  content(),
+                ],
+              ),
             ),
           ),
         ),

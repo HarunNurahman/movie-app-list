@@ -15,6 +15,12 @@ class MySearchDelegate extends SearchDelegate {
       appBarTheme: AppBarTheme(
         color: blueColor,
         elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(defaultRadius),
+            bottomRight: Radius.circular(defaultRadius),
+          ),
+        ),
       ),
       // Border Color
       inputDecorationTheme: const InputDecorationTheme(

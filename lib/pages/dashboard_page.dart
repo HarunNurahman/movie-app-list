@@ -213,93 +213,6 @@ class DashboardPage extends StatelessWidget {
       );
     }
 
-    // // Top rated movie widget (movie title, 'more' button, top rated movie card)
-    // Widget topRatedBox() {
-    //   return Container(
-    //     margin: EdgeInsets.only(bottom: defaultMargin),
-    //     child: BlocBuilder<TopRatedBloc, TopRatedState>(
-    //       builder: (context, state) {
-    //         if (state is TopRatedLoading) {
-    //           return Center(
-    //             child: SizedBox(
-    //               width: 24,
-    //               height: 24,
-    //               child: CircularProgressIndicator(
-    //                 color: grayColor,
-    //               ),
-    //             ),
-    //           );
-    //         } else if (state is TopRatedSuccess) {
-    //           List<MovieModel> movie = state.movieList;
-    //           return Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               // Top rated movie header
-    //               Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                 children: [
-    //                   Text(
-    //                     'Top Rated Movie',
-    //                     style: blackTextStyle.copyWith(
-    //                       fontSize: 16,
-    //                       fontWeight: medium,
-    //                     ),
-    //                   ),
-    //                   GestureDetector(
-    //                     onTap: () => Navigator.pushNamed(context, '/top-rated'),
-    //                     child: Text(
-    //                       'More',
-    //                       style: grayTextStyle.copyWith(
-    //                         fontSize: 14,
-    //                         fontWeight: medium,
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //               Container(
-    //                 height: MediaQuery.of(context).size.height / 2.15,
-    //                 child: ListView.separated(
-    //                   scrollDirection: Axis.horizontal,
-    //                   itemBuilder: (context, index) {
-    //                     MovieModel topRatedList = movie[index];
-    //                     return TopRatedCard(
-    //                       imgUrl: '$imgUrl${topRatedList.posterPath}',
-    //                       movieTitle: topRatedList.title!,
-    //                       releaseDate: topRatedList.releaseDate!,
-    //                       onTap: () => Navigator.push(
-    //                         context,
-    //                         MaterialPageRoute(
-    //                           builder: (context) =>
-    //                               DetailMoviePage(detailMovie: topRatedList),
-    //                         ),
-    //                       ),
-    //                     );
-    //                   },
-    //                   separatorBuilder: (context, index) => VerticalDivider(
-    //                     color: transparent,
-    //                     width: 8,
-    //                   ),
-    //                   itemCount: movie.length = 7,
-    //                 ),
-    //               )
-    //             ],
-    //           );
-    //         } else {
-    //           return Center(
-    //             child: Text(
-    //               'Something Went Wrong!',
-    //               style: blackTextStyle.copyWith(
-    //                 fontSize: 24,
-    //               ),
-    //             ),
-    //           );
-    //         }
-    //       },
-    //     ),
-    //   );
-    // }
-
     // Popular movie widget (movie title, 'more' button, popular movie card)
     Widget popularMovieBox() {
       return Container(
@@ -307,15 +220,7 @@ class DashboardPage extends StatelessWidget {
         child: BlocBuilder<PopularBloc, PopularState>(
           builder: (context, state) {
             if (state is PopularLoading) {
-              return Center(
-                child: SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    color: grayColor,
-                  ),
-                ),
-              );
+              return const SizedBox();
             } else if (state is PopularSuccess) {
               List<MovieModel> movie = state.movieList;
               return Column(
@@ -413,117 +318,19 @@ class DashboardPage extends StatelessWidget {
       );
     }
 
-    // // Upcoming movie widget (movie title, 'more' button, upcoming movie card)
-    // Widget upcomingMovieBox() {
-    //   return Container(
-    //     margin: EdgeInsets.only(
-    //       bottom: defaultMargin,
-    //     ),
-    //     child: BlocBuilder<UpcomingBloc, UpcomingState>(
-    //       builder: (context, state) {
-    //         if (state is UpcomingLoading) {
-    //           return Center(
-    //             child: SizedBox(
-    //               width: 24,
-    //               height: 24,
-    //               child: CircularProgressIndicator(
-    //                 color: grayColor,
-    //               ),
-    //             ),
-    //           );
-    //         } else if (state is UpcomingSuccess) {
-    //           List<MovieModel> movie = state.movieList;
-    //           return Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               // upcoming movie header
-    //               Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                 children: [
-    //                   Text(
-    //                     'Upcoming Movie',
-    //                     style: blackTextStyle.copyWith(
-    //                       fontSize: 16,
-    //                       fontWeight: medium,
-    //                     ),
-    //                   ),
-    //                   GestureDetector(
-    //                     onTap: () {
-    //                       print('upcoming movie');
-    //                     },
-    //                     child: Text(
-    //                       'More',
-    //                       style: grayTextStyle.copyWith(
-    //                         fontSize: 14,
-    //                         fontWeight: medium,
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //               Container(
-    //                 height: MediaQuery.of(context).size.height / 2.15,
-    //                 child: ListView.separated(
-    //                   scrollDirection: Axis.horizontal,
-    //                   itemBuilder: (context, index) {
-    //                     MovieModel upcomingList = movie[index];
-    //                     return UpcomingCard(
-    //                       imgUrl: '$imgUrl/${upcomingList.posterPath}',
-    //                       movieTitle: upcomingList.title!,
-    //                       releaseDate: upcomingList.releaseDate!,
-    //                       onTap: () => Navigator.push(
-    //                         context,
-    //                         MaterialPageRoute(
-    //                           builder: (context) =>
-    //                               DetailMoviePage(detailMovie: upcomingList),
-    //                         ),
-    //                       ),
-    //                     );
-    //                   },
-    //                   separatorBuilder: (context, index) => VerticalDivider(
-    //                     color: transparent,
-    //                     width: 6,
-    //                   ),
-    //                   itemCount: movie.length = 5,
-    //                 ),
-    //               )
-    //             ],
-    //           );
-    //         } else {
-    //           return Center(
-    //             child: Text(
-    //               'Something Went Wrong!',
-    //               style: blackTextStyle.copyWith(
-    //                 fontSize: 24,
-    //               ),
-    //             ),
-    //           );
-    //         }
-    //       },
-    //     ),
-    //   );
-    // }
-
     return MultiBlocProvider(
       providers: [
         BlocProvider<MovieBloc>(
           create: (context) => MovieBloc()..add(MovieEventStarted(0, '')),
         ),
-        // BlocProvider<TopRatedBloc>(
-        //   create: (context) => TopRatedBloc()..add(TopRatedEventStarted(1, '')),
-        // ),
         BlocProvider(
           create: (context) => PopularBloc()..add(PopularEventStarted(2, '')),
         ),
-        // BlocProvider(
-        //   create: (context) => UpcomingBloc()..add(UpcomingEventStarted(3, '')),
-        // ),
         BlocProvider(
           create: (context) => SearchBloc()..add(SearchEventStarted('')),
         ),
       ],
       child: Scaffold(
-        // drawer: drawer(),
         appBar: appBar(),
         body: SingleChildScrollView(
           child: Container(

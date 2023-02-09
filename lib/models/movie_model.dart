@@ -1,4 +1,4 @@
-import 'genre_model.dart';
+// import 'genre_model.dart';
 
 class MovieModel {
   MovieModel({
