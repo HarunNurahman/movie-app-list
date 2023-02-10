@@ -1,3 +1,5 @@
+// import 'genre_model.dart';
+
 class MovieModel {
   MovieModel({
     this.backdropPath,
@@ -12,6 +14,7 @@ class MovieModel {
     this.video,
     this.voteAverage,
     this.voteCount,
+    this.genre,
   });
 
   String? backdropPath;
@@ -27,6 +30,7 @@ class MovieModel {
   bool? video;
   double? voteAverage;
   int? voteCount;
+  List<int>? genre;
 
   factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         backdropPath: json["backdrop_path"],
@@ -42,6 +46,9 @@ class MovieModel {
         video: json["video"],
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
+        genre: List<int>.from(
+          json["genre_ids"].map((x) => x),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -58,5 +65,6 @@ class MovieModel {
         "video": video,
         "vote_average": voteAverage,
         "vote_count": voteCount,
+        "genre_ids": List<dynamic>.from(genre!.map((e) => e)),
       };
 }

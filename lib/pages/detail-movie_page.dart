@@ -1,23 +1,36 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_javan_devtest/configs/styles.dart';
+import 'package:movieapp_javan_devtest/models/cast_model.dart';
 import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
-import 'package:movieapp_javan_devtest/models/movie_model.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:movieapp_javan_devtest/pages/widgets/genre_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../bloc/detail-movie_bloc/detail_movie_bloc.dart';
+import '../models/movie_model.dart';
 
 class DetailMoviePage extends StatelessWidget {
   final MovieModel detailMovie;
   const DetailMoviePage({super.key, required this.detailMovie});
 
+  Future<void> urlLauncher(
+    String url, {
+    bool forceWebView = false,
+    bool enableJavaScript = false,
+  }) async {
+    await launchUrl(
+      Uri.parse(url),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     String imgUrl = 'https://image.tmdb.org/t/p/original';
+    String youtubeUrl = 'https://www.youtube.com/watch?v';
 
-    // Header widget (thumbnail, movie title)
-    Widget backgroundThumbnail() {
-      Widget backColor() {
+    Widget backgroundImage() {
+      Widget backdropShadow() {
         return Container(
           height: 300,
           width: double.infinity,
@@ -26,14 +39,107 @@ class DetailMoviePage extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                blackColor.withOpacity(0.0),
-                blackColor.withOpacity(0.7),
+                blackColor.withOpacity(0),
+                blackColor.withOpacity(0.65),
               ],
             ),
           ),
         );
       }
 
+      return Container(
+        width: double.infinity,
+        height: 300,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(
+              '$imgUrl/${detailMovie.backdropPath}',
+              errorListener: () => Container(
+                width: 140,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/images/error-404.png',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: backdropShadow(),
+      );
+    }
+
+    Widget header() {
+      return BlocBuilder<DetailMovieBloc, DetailMovieState>(
+        builder: (context, state) {
+          if (state is DetailMovieSuccess) {
+            DetailMovieModel detailMovieModel = state.detailMovie;
+            return Container(
+              width: double.infinity,
+              margin:
+                  EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Back Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: whiteColor,
+                          size: 24,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {},
+                        child:
+                            Icon(Icons.more_horiz, color: whiteColor, size: 24),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 60),
+                  Center(
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            final url =
+                                '$youtubeUrl=${detailMovieModel.trailerId}';
+                            await urlLauncher(url);
+                          },
+                          child: Image.asset(
+                            'assets/icons/ic_play.png',
+                            width: 45,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Play Trailer',
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 12,
+                            fontWeight: bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
+      );
+    }
+
+    Widget content() {
       return BlocBuilder<DetailMovieBloc, DetailMovieState>(
         builder: (context, state) {
           if (state is DetailMovieLoading) {
@@ -42,332 +148,231 @@ class DetailMoviePage extends StatelessWidget {
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
-                  color: grayColor,
+                  color: whiteColor,
                 ),
               ),
             );
           } else if (state is DetailMovieSuccess) {
             DetailMovieModel detailMovieModel = state.detailMovie;
             return Container(
+              margin: const EdgeInsets.only(top: 240),
+              padding: EdgeInsets.all(defaultMargin),
               width: double.infinity,
-              height: 300,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    '$imgUrl/${detailMovieModel.posterPath}',
-                  ),
-                  fit: BoxFit.cover,
+                color: whiteColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(defaultRadius),
+                  topRight: Radius.circular(defaultRadius),
                 ),
               ),
-              child: Align(
-                alignment: Alignment.center,
-                child: backColor(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Movie Title
+                  Text(
+                    detailMovie.title!,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 24,
+                      fontWeight: bold,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                  // Rating
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: yellowColor, size: 14),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${detailMovie.voteAverage.toString()}/10 IMDb',
+                        style: subtitleTextStyle.copyWith(fontSize: 14),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // Genre
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      height: 30,
+                      child: Row(
+                        children: detailMovieModel.genres!
+                            .map(
+                              (genre) => GenreCard(genre: genre.name!),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Movie Duration
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Duration',
+                            style: subtitleTextStyle.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${detailMovieModel.runtime.toString()} Minutes',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: semiBold,
+                            ),
+                          )
+                        ],
+                      ),
+                      // Release Date
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Release Date',
+                            style: subtitleTextStyle.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            detailMovieModel.releaseDate!,
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: semiBold,
+                            ),
+                          )
+                        ],
+                      ),
+                      // Budget
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Budget',
+                            style: subtitleTextStyle.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            AppFormat.currencyFormat(
+                              detailMovieModel.budget!.toString(),
+                            ),
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: semiBold,
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // Description
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Description',
+                        style: primaryTextStyle.copyWith(
+                          fontSize: 18,
+                          fontWeight: bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        detailMovieModel.overview!,
+                        style: subtitleTextStyle.copyWith(
+                          fontSize: 14,
+                          fontWeight: light,
+                        ),
+                        textAlign: TextAlign.justify,
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // Cast List
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Cast',
+                        style: primaryTextStyle.copyWith(
+                          fontSize: 18,
+                          fontWeight: bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        height: 120,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            CastModel cast = detailMovieModel.castList![index];
+                            return Column(
+                              children: [
+                                Container(
+                                  height: 72,
+                                  width: 72,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                        '$imgUrl/${cast.profilePath}',
+                                        errorListener: () => Container(
+                                          width: 140,
+                                          decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                'assets/images/error-404.png',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Container(
+                                  width: 72,
+                                  child: Text(
+                                    cast.name!,
+                                    style: primaryTextStyle.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: semiBold,
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          separatorBuilder: (context, index) => VerticalDivider(
+                            width: 16,
+                            color: transparent,
+                          ),
+                          itemCount: detailMovieModel.castList!.length,
+                        ),
+                      )
+                    ],
+                  )
+                ],
               ),
             );
           } else {
-            return Center(
-              child: Text(
-                'Something Went Wrong!',
-                style: blackTextStyle.copyWith(
-                  fontSize: 24,
-                ),
-              ),
-            );
+            return const SizedBox();
           }
         },
-      );
-    }
-
-    // Body widget (movie title, trailer box and description box)
-    Widget bodyContent() {
-      Widget title() {
-        return BlocBuilder<DetailMovieBloc, DetailMovieState>(
-          builder: (context, state) {
-            if (state is DetailMovieLoading) {
-              return SizedBox();
-            } else if (state is DetailMovieSuccess) {
-              DetailMovieModel detailMovieModel = state.detailMovie;
-              return Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.17,
-                ),
-                child: Text(
-                  detailMovieModel.title!,
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 20,
-                    fontWeight: semiBold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            } else {
-              return SizedBox();
-            }
-          },
-        );
-      }
-
-      Widget trailerBox() {
-        return BlocBuilder<DetailMovieBloc, DetailMovieState>(
-          builder: (context, state) {
-            if (state is DetailMovieLoading) {
-              return SizedBox();
-            } else if (state is DetailMovieSuccess) {
-              DetailMovieModel detailMovieModel = state.detailMovie;
-              return Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.13,
-                ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: defaultRadius,
-                  vertical: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(defaultRadius),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Trailers',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: semiBold,
-                      ),
-                    ),
-                    SizedBox(height: defaultRadius),
-
-                    // Trailer video player
-                    YoutubePlayer(
-                      controller: YoutubePlayerController(
-                        initialVideoId: detailMovieModel.trailerId!,
-                        flags: const YoutubePlayerFlags(
-                          autoPlay: false,
-                          mute: true,
-                          forceHD: true,
-                        ),
-                      ),
-                      showVideoProgressIndicator: true,
-                      onReady: () => print('Ready'),
-                      bottomActions: [
-                        CurrentPosition(),
-                        ProgressBar(
-                          isExpanded: true,
-                          colors: const ProgressBarColors(
-                            playedColor: Colors.red,
-                            handleColor: Colors.redAccent,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              );
-            } else {
-              return SizedBox();
-            }
-          },
-        );
-      }
-
-      Widget descriptionBox() {
-        return BlocBuilder<DetailMovieBloc, DetailMovieState>(
-          builder: (context, state) {
-            if (state is DetailMovieSuccess) {
-              DetailMovieModel detailMovieModel = state.detailMovie;
-              return Container(
-                margin: EdgeInsets.only(top: defaultRadius),
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  horizontal: defaultRadius,
-                  vertical: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(defaultRadius),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Description',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: semiBold,
-                      ),
-                    ),
-                    SizedBox(height: defaultRadius),
-                    Text(
-                      detailMovieModel.overview!,
-                      style: blackTextStyle.copyWith(
-                          fontSize: 12, fontWeight: light),
-                      textAlign: TextAlign.justify,
-                      maxLines: 5,
-                      overflow: TextOverflow.clip,
-                    )
-                  ],
-                ),
-              );
-            } else {
-              return SizedBox();
-            }
-          },
-        );
-      }
-
-      Widget additionalInfo() {
-        return BlocBuilder<DetailMovieBloc, DetailMovieState>(
-          builder: (context, state) {
-            if (state is DetailMovieLoading) {
-              return SizedBox();
-            } else if (state is DetailMovieSuccess) {
-              DetailMovieModel detailMovieModel = state.detailMovie;
-              return Container(
-                margin:
-                    EdgeInsets.only(top: defaultRadius, bottom: defaultMargin),
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  horizontal: defaultRadius,
-                  vertical: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(defaultRadius),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Release Date',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: semiBold,
-                          ),
-                        ),
-                        SizedBox(height: defaultRadius),
-                        Text(
-                          detailMovieModel.releaseDate!,
-                          style: blackTextStyle.copyWith(
-                            fontSize: 12,
-                            fontWeight: light,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: defaultRadius),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Budget',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: semiBold,
-                          ),
-                        ),
-                        SizedBox(height: defaultRadius),
-                        Text(
-                          '\$USD ${detailMovieModel.budget}',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 12,
-                            fontWeight: light,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: defaultRadius),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Genres',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: semiBold,
-                          ),
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: detailMovieModel.genres!
-                                .map(
-                                  (genre) => Container(
-                                    padding: const EdgeInsets.all(6),
-                                    margin: const EdgeInsets.only(
-                                      right: 4,
-                                      top: 8,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                        defaultMargin,
-                                      ),
-                                      color: grayColor,
-                                    ),
-                                    child: Text(
-                                      '${genre.name!} ',
-                                      style: blackTextStyle.copyWith(
-                                        fontSize: 12,
-                                        fontWeight: light,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        )
-                        // RichText(
-                        //   text: TextSpan(
-                        //     text: '${detailMovieModel.genres![0].name}, ',
-                        //     style: blackTextStyle.copyWith(
-                        //       fontSize: 12,
-                        //       fontWeight: light,
-                        //     ),
-                        //     children: [
-                        //       TextSpan(
-                        //         text: '${detailMovieModel.genres![1].name!}, ',
-                        //         style: blackTextStyle.copyWith(
-                        //           fontSize: 12,
-                        //           fontWeight: light,
-                        //         ),
-                        //       ),
-                        //       TextSpan(
-                        //         text: detailMovieModel.genres![2].name!,
-                        //         style: blackTextStyle.copyWith(
-                        //           fontSize: 12,
-                        //           fontWeight: light,
-                        //         ),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return SizedBox();
-            }
-          },
-        );
-      }
-
-      return Container(
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-        child: Column(
-          children: [
-            title(),
-            trailerBox(),
-            descriptionBox(),
-            additionalInfo(),
-          ],
-        ),
       );
     }
 
@@ -376,15 +381,18 @@ class DetailMoviePage extends StatelessWidget {
         ..add(
           DetailMovieEventStarted(detailMovie.id!),
         ),
-      child: Scaffold(
-        backgroundColor: Colors.grey[200],
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Stack(
-              children: [
-                backgroundThumbnail(),
-                bodyContent(),
-              ],
+      child: WillPopScope(
+        onWillPop: () async => true,
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  backgroundImage(),
+                  header(),
+                  content(),
+                ],
+              ),
             ),
           ),
         ),

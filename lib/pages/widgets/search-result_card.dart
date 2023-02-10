@@ -6,6 +6,7 @@ class SearchResultCard extends StatelessWidget {
   final String imgUrl;
   final String movieTitle;
   final String rating;
+  final String releaseDate;
   final Function() onTap;
   const SearchResultCard({
     super.key,
@@ -13,6 +14,7 @@ class SearchResultCard extends StatelessWidget {
     required this.movieTitle,
     required this.rating,
     required this.onTap,
+    required this.releaseDate,
   });
 
   @override
@@ -20,58 +22,90 @@ class SearchResultCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: defaultMargin,
-          vertical: defaultRadius,
+        margin: EdgeInsets.only(
+          top: 16,
+          left: defaultMargin,
+          right: defaultMargin,
         ),
-        padding: const EdgeInsets.all(8),
+        width: 120,
         decoration: BoxDecoration(
-          color: whiteColor,
           borderRadius: BorderRadius.circular(defaultRadius),
-          border: Border.all(width: 1),
+            color: blueColor
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Movie Poster
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultRadius),
-              child: Container(
-                width: 64,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(defaultRadius),
-                ),
-                child: CachedNetworkImage(imageUrl: imgUrl, fit: BoxFit.cover),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    movieTitle,
-                    style: blackTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: semiBold,
+              child: CachedNetworkImage(
+                imageUrl: imgUrl,
+                width: 100,
+                placeholder: (context, url) => SizedBox(
+                  child: Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: blueColor,
+                      ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow[700],
-                      ),
-                      Text(
-                        rating,
-                        style: blackTextStyle.copyWith(
-                          fontSize: 12,
-                          fontWeight: semiBold,
-                        ),
-                      )
-                    ],
-                  )
-                ],
+                ),
+                errorWidget: (context, url, error) => Icon(
+                  Icons.highlight_remove_outlined,
+                  color: blueColor,
+                ),
               ),
             ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: defaultMargin,
+                  bottom: defaultMargin,
+                  right: 16,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Movie Title
+                    Text(
+                      movieTitle,
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 18,
+                        fontWeight: medium,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    // Rating
+                    Row(
+                      children: [
+                        Icon(Icons.star, color: yellowColor, size: 16),
+                        const SizedBox(width: 4),
+                        Text(
+                          '$rating/10',
+                          style: subtitleTextStyle.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    // Release Date
+                    Text(
+                      'Release Date - $releaseDate',
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: light,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

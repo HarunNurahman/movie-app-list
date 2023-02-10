@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:movieapp_javan_devtest/models/cast_model.dart';
 import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
 import 'package:movieapp_javan_devtest/models/genre_model.dart';
 import 'package:movieapp_javan_devtest/models/movie_model.dart';
@@ -15,13 +16,13 @@ class ApiService {
       final response = await _dio.get('$baseUrl/movie/$movieId?$apiKey');
       DetailMovieModel detailMovie = DetailMovieModel.fromJson(response.data);
 
-      // Return Genre API
+      // // Pengambilan API Dari Fungsi API Lain
       // detailMovie.genreModel = await getGenreList(movieId);
       detailMovie.trailerId = await getYoutubeId(movieId);
+      detailMovie.castList = await getCastList(movieId);
 
       return detailMovie;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -29,8 +30,6 @@ class ApiService {
   // GET Now Playing API
   Future<List<MovieModel>> getNowPlayingMovie() async {
     try {
-      print('Now Playing API Called');
-
       final response = await _dio.get('$baseUrl/movie/now_playing?$apiKey');
       var nowPlaying = response.data['results'] as List;
       List<MovieModel> npList =
@@ -45,15 +44,12 @@ class ApiService {
   // GET Top Rated Movie API
   Future<List<MovieModel>> getTopRatedMovie() async {
     try {
-      print('Top Rated API Called');
-
       final response = await _dio.get('$baseUrl/movie/top_rated?$apiKey');
       var topRated = response.data['results'] as List;
       List<MovieModel> trList =
           topRated.map((e) => MovieModel.fromJson(e)).toList();
       return trList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -61,15 +57,13 @@ class ApiService {
   // GET Popular Movie API
   Future<List<MovieModel>> getPopularMovie() async {
     try {
-      print('Popular API Called');
-
       final response = await _dio.get('$baseUrl/movie/popular?$apiKey');
-      var topRated = response.data['results'] as List;
-      List<MovieModel> trList =
-          topRated.map((e) => MovieModel.fromJson(e)).toList();
-      return trList;
+      var popular = response.data['results'] as List;
+      List<MovieModel> popularList =
+          popular.map((e) => MovieModel.fromJson(e)).toList();
+
+      return popularList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -77,14 +71,12 @@ class ApiService {
   // GET Upcoming Movie API
   Future<List<MovieModel>> getUpcomingMovie() async {
     try {
-      print('Upcoming API Called');
       final response = await _dio.get('$baseUrl/movie/upcoming?$apiKey');
       var upcoming = response.data['results'] as List;
       List<MovieModel> upcomingList =
           upcoming.map((e) => MovieModel.fromJson(e)).toList();
       return upcomingList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -92,7 +84,6 @@ class ApiService {
   // GET Genre List API
   Future<List<GenreModel>> getGenreList() async {
     try {
-      print('Genre List API Called');
       final response = await _dio.get(
         '$baseUrl/genre/movie/list?$apiKey&language=en-US',
       );
@@ -101,7 +92,6 @@ class ApiService {
           genres.map((e) => GenreModel.fromJson(e)).toList();
       return genreList;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -113,7 +103,6 @@ class ApiService {
       var youtubeID = response.data['results'][0]['key'];
       return youtubeID;
     } catch (e) {
-      print(e);
       throw Exception(e.toString());
     }
   }
@@ -127,6 +116,25 @@ class ApiService {
       List<MovieModel> searchResult =
           search.map((e) => MovieModel.fromJson(e)).toList();
       return searchResult;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // GET Cast List API
+  Future<List<CastModel>> getCastList(int movieId) async {
+    try {
+      final response =
+          await _dio.get('$baseUrl/movie/$movieId/credits?$apiKey');
+      var list = response.data['cast'] as List;
+      List<CastModel> castList = list
+          .map((cast) => CastModel(
+                name: cast['name'],
+                profilePath: cast['profile_path'],
+                character: cast['character'],
+              ))
+          .toList();
+      return castList;
     } catch (e) {
       print(e);
       throw Exception(e.toString());

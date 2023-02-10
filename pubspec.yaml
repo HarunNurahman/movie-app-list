@@ -35,9 +35,12 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_bloc: 7.1.0
+  flutter_bloc: ^8.1.2
   google_fonts: ^3.0.1
   http: ^0.13.5
+  intl: ^0.18.0
+  marquee: ^2.2.3
+  url_launcher: ^6.1.9
   youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
