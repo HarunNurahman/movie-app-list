@@ -2,8 +2,7 @@
 
 This is a movie list application built with Dart / Flutter and uses TMDB API to get the data. 
 
-UI Design by [`Syahidina Alif`](https://www.figma.com/@syahidinaalif)
-Figma Design: https://www.figma.com/community/file/1054431643740926668 
+UI Design https://www.figma.com/community/file/1054431643740926668 by [Syahidina Alif](https://www.figma.com/@syahidinaalif)
 
 ## Installation
 
