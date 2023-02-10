@@ -1,6 +1,9 @@
 # Movie List Application
 
-This is a movie list application built with Dart / Flutter and uses TMDB API to get the data. This is an early build and with an early design I create from scratch, and I'll change the UI design after I found a good fit design.
+This is a movie list application built with Dart / Flutter and uses TMDB API to get the data. 
+
+UI Design by [`Syahidina Alif`](https://www.figma.com/@syahidinaalif)
+Figma Design: https://www.figma.com/community/file/1054431643740926668 
 
 ## Installation
 
@@ -15,10 +18,9 @@ https://user-images.githubusercontent.com/16952129/215656313-6b899702-ad29-4fc6-
 ## Features
 
 - Now Playing Movie
-- Top Rated Movie
 - Popular Movie
-- Upcoming Movie
 - Search Movie
+- Detail Movie w/ URL Launcher to Youtube
 
 ## Dependencies
 This app using a few dependencies such as:
