@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieapp_javan_devtest/models/movie_model.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/search-result_card.dart';
 
 import '../../bloc/search_bloc/search_bloc.dart';
 import '../../configs/styles.dart';
+import '../../models/movie_model.dart';
 import '../detail-movie_page.dart';
+import 'search-result_card.dart';
 
 class MySearchDelegate extends SearchDelegate {
   @override

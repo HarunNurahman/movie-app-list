@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/movie_model.dart';
-import 'package:movieapp_javan_devtest/pages/detail-movie_page.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/movie_bloc/movie_bloc.dart';
+import '../configs/styles.dart';
+import '../models/movie_model.dart';
+import 'detail-movie_page.dart';
+import 'widgets/now-playing_card.dart';
 
 class NowPlaying extends StatelessWidget {
   const NowPlaying({super.key});

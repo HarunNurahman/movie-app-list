@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieapp_javan_devtest/bloc/popular_bloc/popular_bloc.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
 
+import '../bloc/popular_bloc/popular_bloc.dart';
 import '../configs/styles.dart';
 import '../models/movie_model.dart';
 import 'detail-movie_page.dart';
 import 'widgets/genre_card.dart';
+import 'widgets/popular_card.dart';
 
 class PopularMoviePage extends StatelessWidget {
   const PopularMoviePage({super.key});

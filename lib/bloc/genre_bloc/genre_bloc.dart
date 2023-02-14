@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:movieapp_javan_devtest/models/genre_model.dart';
-import 'package:movieapp_javan_devtest/services/api_service.dart';
+
+import '../../models/genre_model.dart';
+import '../../services/api_service.dart';
 
 part 'genre_event.dart';
 part 'genre_state.dart';

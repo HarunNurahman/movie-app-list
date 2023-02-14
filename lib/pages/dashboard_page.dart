@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieapp_javan_devtest/bloc/movie_bloc/movie_bloc.dart';
-import 'package:movieapp_javan_devtest/bloc/search_bloc/search_bloc.dart';
-import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/movie_model.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/genre_card.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/now-playing_card.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/popular_card.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/search_delegate.dart';
 
+import '../bloc/movie_bloc/movie_bloc.dart';
 import '../bloc/popular_bloc/popular_bloc.dart';
+import '../bloc/search_bloc/search_bloc.dart';
+import '../configs/styles.dart';
+import '../models/movie_model.dart';
 import 'detail-movie_page.dart';
+import 'widgets/genre_card.dart';
+import 'widgets/now-playing_card.dart';
+import 'widgets/popular_card.dart';
+import 'widgets/search_delegate.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -335,16 +335,14 @@ class DashboardPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  nowPlayingBox(),
-                  // topRatedBox(),
-                  popularMovieBox(),
-                  // upcomingMovieBox(),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                nowPlayingBox(),
+                // topRatedBox(),
+                popularMovieBox(),
+                // upcomingMovieBox(),
+              ],
             ),
           ),
         ),

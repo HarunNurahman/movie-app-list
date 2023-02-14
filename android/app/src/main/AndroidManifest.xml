@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.movie_app_list">
+    package="com.harunamanya.movie_app_list">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="Movie App List"

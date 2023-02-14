@@ -1,6 +1,6 @@
-import 'package:movieapp_javan_devtest/models/genre_model.dart';
 
 import 'cast_model.dart';
+import 'genre_model.dart';
 
 class DetailMovieModel {
   DetailMovieModel({

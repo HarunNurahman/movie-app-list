@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieapp_javan_devtest/configs/styles.dart';
-import 'package:movieapp_javan_devtest/models/cast_model.dart';
-import 'package:movieapp_javan_devtest/models/detail-movie_model.dart';
-import 'package:movieapp_javan_devtest/pages/widgets/genre_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../bloc/detail-movie_bloc/detail_movie_bloc.dart';
+import '../configs/styles.dart';
+import '../models/cast_model.dart';
+import '../models/detail-movie_model.dart';
 import '../models/movie_model.dart';
+import 'widgets/genre_card.dart';
 
 class DetailMoviePage extends StatelessWidget {
   final MovieModel detailMovie;

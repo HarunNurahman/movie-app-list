@@ -1,4 +1,4 @@
-package com.example.movieapp_javan_devtest
+package com.harunamanya.movie_app_list
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp_javan_devtest/configs/styles.dart';
+
+import '../../configs/styles.dart';
 
 class NowPlayingCard extends StatelessWidget {
   final String imgUrl;

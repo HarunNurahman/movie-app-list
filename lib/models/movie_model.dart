@@ -1,5 +1,3 @@
-// import 'genre_model.dart';
-
 class MovieModel {
   MovieModel({
     this.backdropPath,
