@@ -8,7 +8,7 @@ UI Design https://www.figma.com/community/file/1054431643740926668 by [Syahidina
 
 Go to ```lib/services/api_service.dart``` and change ```apiKey``` to your own API after registered to TMDB
 ```
-final String apiKey = 'YOUR_TMDB_API_KEY';
+final String apiKey = 'api_key=YOUR_TMDB_API_KEY';
 ```
 
 # Demo App
