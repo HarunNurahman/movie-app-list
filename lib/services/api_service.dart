@@ -8,7 +8,7 @@ class ApiService {
   final Dio _dio = Dio();
 
   final String baseUrl = 'https://api.themoviedb.org/3/';
-  final String apiKey = 'api_key=YOUR_API_KEY';
+  final String apiKey = 'api_key=YOUR_TMDB_API_KEY';
 
   // GET Detail Movie API
   Future<DetailMovieModel> getMovieDetail(int movieId) async {
