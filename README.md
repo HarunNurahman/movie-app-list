@@ -12,7 +12,7 @@ final String apiKey = 'api_key=YOUR_TMDB_API_KEY';
 ```
 
 # Demo App
-https://user-images.githubusercontent.com/16952129/215656313-6b899702-ad29-4fc6-85d6-150d470df2a7.mp4
+https://user-images.githubusercontent.com/16952129/220309890-70c5cad9-a1ae-4847-93c7-24a0f10785de.mp4
 
 ## Features
 
