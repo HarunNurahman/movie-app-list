@@ -83,7 +83,7 @@ class PopularMoviePage extends StatelessWidget {
                                   'ID: ${popularList.genre![index].toString()}',
                             );
                           },
-                          itemCount: popularList.genre!.length = 3,
+                          itemCount: popularList.genre!.length,
                         ),
                         onTap: () {
                           Navigator.push(
