@@ -54,7 +54,7 @@ class DetailMoviePage extends StatelessWidget {
           image: DecorationImage(
             image: CachedNetworkImageProvider(
               '$imgUrl/${detailMovie.backdropPath}',
-              errorListener: () => Container(
+              errorListener: (errorMessage) => Container(
                 width: 140,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -327,7 +327,8 @@ class DetailMoviePage extends StatelessWidget {
                                     image: DecorationImage(
                                       image: CachedNetworkImageProvider(
                                         '$imgUrl/${cast.profilePath}',
-                                        errorListener: () => Container(
+                                        errorListener: (errorMessage) =>
+                                            Container(
                                           width: 140,
                                           decoration: const BoxDecoration(
                                             image: DecorationImage(
