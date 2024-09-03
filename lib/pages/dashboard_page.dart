@@ -169,7 +169,7 @@ class DashboardPage extends StatelessWidget {
                       )
                     ],
                   ),
-                  Container(
+                  SizedBox(
                     // height: MediaQuery.of(context).size.height / 1.75,
                     height: 300,
                     child: ListView.separated(
@@ -321,13 +321,14 @@ class DashboardPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MovieBloc>(
-          create: (context) => MovieBloc()..add(MovieEventStarted(0, '')),
+          create: (context) => MovieBloc()..add(const MovieEventStarted(0, '')),
         ),
         BlocProvider(
-          create: (context) => PopularBloc()..add(PopularEventStarted(2, '')),
+          create: (context) =>
+              PopularBloc()..add(const PopularEventStarted(2, '')),
         ),
         BlocProvider(
-          create: (context) => SearchBloc()..add(SearchEventStarted('')),
+          create: (context) => SearchBloc()..add(const SearchEventStarted('')),
         ),
       ],
       child: Scaffold(

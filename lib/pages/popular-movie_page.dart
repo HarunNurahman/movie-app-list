@@ -33,7 +33,8 @@ class PopularMoviePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PopularBloc>(
-          create: (context) => PopularBloc()..add(PopularEventStarted(0, '')),
+          create: (context) =>
+              PopularBloc()..add(const PopularEventStarted(0, '')),
         ),
       ],
       child: BlocBuilder<PopularBloc, PopularState>(
@@ -102,7 +103,7 @@ class PopularMoviePage extends StatelessWidget {
               ),
             );
           }
-          return Scaffold();
+          return const Scaffold();
         },
       ),
     );

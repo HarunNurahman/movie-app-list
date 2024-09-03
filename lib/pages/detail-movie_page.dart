@@ -311,7 +311,7 @@ class DetailMoviePage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Container(
+                      SizedBox(
                         height: 120,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
@@ -344,7 +344,7 @@ class DetailMoviePage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 8),
-                                Container(
+                                SizedBox(
                                   width: 72,
                                   child: Text(
                                     cast.name!,
