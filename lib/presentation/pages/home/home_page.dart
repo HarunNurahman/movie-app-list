@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app_list/core/utils/style.dart';
+import 'package:movie_app_list/presentation/widgets/custom_search-bar.dart';
 import 'package:movie_app_list/presentation/widgets/top-movie_item.dart';
 
 class HomePage extends StatelessWidget {
@@ -23,18 +24,18 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               // Search bar
-              searchBar(),
+              buildSearchBar(),
               // Top 5 movies
-              topMovies(),
+              buildTopMovies(),
               // Movie tabList
-              movieTabBar(),
+              buildMovieTabBar(),
               // Movie list
               ConstrainedBox(
                 constraints: const BoxConstraints(
                   minHeight: 150,
                   maxHeight: 350,
                 ),
-                child: movieList(context),
+                child: buildMovieList(context),
               ),
             ],
           ),
@@ -43,32 +44,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget searchBar() {
-    return Container(
-      margin: const EdgeInsets.only(top: 24),
-      child: TextFormField(
-        style: whiteTextStyle,
-        cursorColor: whiteColor,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: darkGrayColor,
-          hintText: 'Search',
-          hintStyle: whiteTextStyle.copyWith(color: grayColor),
-          suffixIcon: Icon(Icons.search, color: grayColor, size: 24),
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 16,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide.none,
-          ),
-        ),
-      ),
-    );
+  Widget buildSearchBar() {
+    return const CustomSearchBar();
   }
 
-  Widget topMovies() {
+  Widget buildTopMovies() {
     return Container(
       margin: const EdgeInsets.only(top: 24),
       child: const SingleChildScrollView(
@@ -101,7 +81,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget movieTabBar() {
+  Widget buildMovieTabBar() {
     return Container(
       margin: const EdgeInsets.only(top: 24),
       child: TabBar(
@@ -124,7 +104,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget movieList(BuildContext context) {
+  Widget buildMovieList(BuildContext context) {
     return TabBarView(
       children: [
         Container(
@@ -134,11 +114,10 @@ class HomePage extends StatelessWidget {
             runSpacing: 18,
             children: [
               Image.asset('assets/images/img_movie-1.png', width: 100),
-              Image.asset('assets/images/img_movie-1.png', width: 100),
-              Image.asset('assets/images/img_movie-1.png', width: 100),
-              Image.asset('assets/images/img_movie-1.png', width: 100),
-              Image.asset('assets/images/img_movie-1.png', width: 100),
-              Image.asset('assets/images/img_movie-1.png', width: 100),
+              Image.asset('assets/images/img_movie-2.png', width: 100),
+              Image.asset('assets/images/img_movie-3.png', width: 100),
+              Image.asset('assets/images/img_movie-4.png', width: 100),
+              Image.asset('assets/images/img_movie-5.png', width: 100),
             ],
           ),
         ),

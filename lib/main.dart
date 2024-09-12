@@ -24,7 +24,13 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             elevation: 0,
             centerTitle: true,
-            titleTextStyle: whiteTextStyle,
+            
+            backgroundColor: kprimaryColor,
+            iconTheme: IconThemeData(color: whiteColor),
+            titleTextStyle: whiteTextStyle.copyWith(
+              fontSize: 18,
+              fontWeight: semiBold,
+            ),
           ),
         ),
         home: const SplashPage(),

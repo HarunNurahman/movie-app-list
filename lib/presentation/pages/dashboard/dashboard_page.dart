@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app_list/core/utils/style.dart';
 import 'package:movie_app_list/presentation/bloc/dashboard/dashboard_bloc.dart';
 import 'package:movie_app_list/presentation/pages/home/home_page.dart';
+import 'package:movie_app_list/presentation/pages/search/search_page.dart';
+import 'package:movie_app_list/presentation/pages/watchlist/watchlist_page.dart';
 
 List<Widget> _bodyItems = [
   const HomePage(),
-  Text('Search Page', style: whiteTextStyle),
-  Text('Watchlist Page', style: whiteTextStyle),
+  const SearchPage(),
+  const WatchlistPage(),
 ];
 
 class DashboardPage extends StatelessWidget {
