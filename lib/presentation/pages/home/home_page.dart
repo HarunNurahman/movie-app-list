@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app_list/core/utils/style.dart';
+import 'package:movie_app_list/presentation/pages/detail/detail-movie_page.dart';
 import 'package:movie_app_list/presentation/widgets/custom_search-bar.dart';
 import 'package:movie_app_list/presentation/widgets/top-movie_item.dart';
 
@@ -26,17 +27,11 @@ class HomePage extends StatelessWidget {
               // Search bar
               buildSearchBar(),
               // Top 5 movies
-              buildTopMovies(),
+              buildTopMovies(context),
               // Movie tabList
               buildMovieTabBar(),
               // Movie list
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: 150,
-                  maxHeight: 350,
-                ),
-                child: buildMovieList(context),
-              ),
+              buildMovieList(context)
             ],
           ),
         ),
@@ -48,14 +43,16 @@ class HomePage extends StatelessWidget {
     return const CustomSearchBar();
   }
 
-  Widget buildTopMovies() {
+  Widget buildTopMovies(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 24),
-      child: const SingleChildScrollView(
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
             TopMovieItem(
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DetailMoviePage())),
               imgUrl: 'assets/images/img_movie-1.png',
               imgNumber: '1',
             ),
@@ -105,6 +102,16 @@ class HomePage extends StatelessWidget {
   }
 
   Widget buildMovieList(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: 150,
+        maxHeight: 350,
+      ),
+      child: buildTabBarView(context),
+    );
+  }
+
+  Widget buildTabBarView(BuildContext context) {
     return TabBarView(
       children: [
         Container(
