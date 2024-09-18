@@ -22,10 +22,7 @@ class TopMovieItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                imgUrl,
-                width: 144,
-              ),
+              child: Image.asset(imgUrl, height: 210),
             ),
             Positioned(
               top: 150,

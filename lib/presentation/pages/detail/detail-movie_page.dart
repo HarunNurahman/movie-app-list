@@ -9,19 +9,23 @@ class DetailMoviePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: _tabs.length,
       child: Scaffold(
         appBar: buildAppBar(),
-        body: Column(
-          children: [
-            // Header
-            buildHeader(),
-            // Info section (release date, duration, genre)
-            buildInfo(),
-            // Tab bar
-            buildTabBar(),
-            // Tab bar view
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              buildHeader(),
+              // Info section (release date, duration, genre)
+              buildInfo(),
+              // Tab bar
+              buildTabBar(),
+              // Tab bar view
+              buildTabBarViewContent(),
+            ],
+          ),
         ),
       ),
     );
@@ -30,17 +34,14 @@ class DetailMoviePage extends StatelessWidget {
   PreferredSize buildAppBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(56),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: AppBar(
-          title: const Text('Detail'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.bookmark_border_outlined, size: 24),
-            ),
-          ],
-        ),
+      child: AppBar(
+        title: const Text('Detail'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.bookmark_border_outlined, size: 24),
+          ),
+        ],
       ),
     );
   }
@@ -165,9 +166,12 @@ class DetailMoviePage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 24),
       child: TabBar(
+        isScrollable: true,
+        tabAlignment: TabAlignment.start,
+        padding: const EdgeInsets.only(left: 30),
         indicatorColor: grayColor,
         dividerColor: Colors.transparent,
-        labelPadding: const EdgeInsets.symmetric(vertical: 4),
+        labelPadding: const EdgeInsets.only(top: 4, bottom: 4, right: 12),
         labelColor: whiteColor,
         labelStyle: whiteTextStyle.copyWith(
           fontWeight: medium,
@@ -177,6 +181,74 @@ class DetailMoviePage extends StatelessWidget {
         ),
         tabs: _tabs.map((tabList) => Tab(text: tabList)).toList(),
       ),
+    );
+  }
+
+  Widget buildTabBarView() {
+    Widget buildMovieOverview(String overview) {
+      return Text(
+        overview,
+        style: whiteTextStyle.copyWith(fontSize: 12, fontWeight: medium),
+      );
+    }
+
+    Widget buildMovieCast(String imgUrl, String name) {
+      return Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            width: 90,
+            height: 90,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage(imgUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Text(
+            name,
+            style: whiteTextStyle.copyWith(
+              fontSize: 12,
+              fontWeight: medium,
+            ),
+          )
+        ],
+      );
+    }
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
+      child: TabBarView(
+        children: [
+          buildMovieOverview(
+            'From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences.',
+          ),
+          Wrap(
+            spacing: 24,
+            runSpacing: 24,
+            children: [
+              buildMovieCast('assets/images/img_movie-1.png', 'Tom Cruise'),
+              buildMovieCast('assets/images/img_movie-1.png', 'Tom Cruise'),
+              buildMovieCast('assets/images/img_movie-1.png', 'Tom Cruise'),
+              buildMovieCast('assets/images/img_movie-1.png', 'Tom Cruise'),
+              buildMovieCast('assets/images/img_movie-1.png', 'Tom Cruise'),
+              buildMovieCast('assets/images/img_movie-1.png', 'Tom Cruise'),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildTabBarViewContent() {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: 100,
+        maxHeight: 500,
+      ),
+      child: buildTabBarView(),
     );
   }
 }

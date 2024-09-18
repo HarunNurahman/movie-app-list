@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:movie_app_list/core/utils/style.dart';
 import 'package:movie_app_list/presentation/pages/detail/detail-movie_page.dart';
 import 'package:movie_app_list/presentation/widgets/custom_search-bar.dart';
+import 'package:movie_app_list/presentation/widgets/movie-list_item.dart';
 import 'package:movie_app_list/presentation/widgets/top-movie_item.dart';
+
+List<String> _tabs = ['Now Playing', 'Upcoming', 'Top Rated'];
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,7 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: _tabs.length,
       child: Scaffold(
         body: SafeArea(
           child: ListView(
@@ -31,7 +34,7 @@ class HomePage extends StatelessWidget {
               // Movie tabList
               buildMovieTabBar(),
               // Movie list
-              buildMovieList(context)
+              buildTabBarViewContent(context)
             ],
           ),
         ),
@@ -82,9 +85,11 @@ class HomePage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 24),
       child: TabBar(
+        isScrollable: true,
+        tabAlignment: TabAlignment.start,
         indicatorColor: grayColor,
         dividerColor: Colors.transparent,
-        labelPadding: const EdgeInsets.symmetric(vertical: 4),
+        labelPadding: const EdgeInsets.only(top: 4, bottom: 4, right: 12),
         labelColor: whiteColor,
         labelStyle: whiteTextStyle.copyWith(
           fontWeight: medium,
@@ -92,16 +97,12 @@ class HomePage extends StatelessWidget {
         unselectedLabelStyle: whiteTextStyle.copyWith(
           fontWeight: medium,
         ),
-        tabs: const [
-          Tab(child: Text('Now Playing')),
-          Tab(child: Text('Upcoming')),
-          Tab(child: Text('Top Rated')),
-        ],
+        tabs: _tabs.map((tabList) => Tab(text: tabList)).toList(),
       ),
     );
   }
 
-  Widget buildMovieList(BuildContext context) {
+  Widget buildTabBarViewContent(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
         minHeight: 150,
@@ -120,11 +121,11 @@ class HomePage extends StatelessWidget {
             spacing: 13,
             runSpacing: 18,
             children: [
-              Image.asset('assets/images/img_movie-1.png', width: 100),
-              Image.asset('assets/images/img_movie-2.png', width: 100),
-              Image.asset('assets/images/img_movie-3.png', width: 100),
-              Image.asset('assets/images/img_movie-4.png', width: 100),
-              Image.asset('assets/images/img_movie-5.png', width: 100),
+              MovieListItem(imgUrl: 'assets/images/img_movie-1.png'),
+              MovieListItem(imgUrl: 'assets/images/img_movie-2.png'),
+              MovieListItem(imgUrl: 'assets/images/img_movie-3.png'),
+              MovieListItem(imgUrl: 'assets/images/img_movie-4.png'),
+              MovieListItem(imgUrl: 'assets/images/img_movie-5.png'),
             ],
           ),
         ),

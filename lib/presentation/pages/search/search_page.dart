@@ -62,18 +62,15 @@ class SearchPage extends StatelessWidget {
   PreferredSize buildAppBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(56),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text('Search'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.info_outline_rounded, size: 20),
-            ),
-          ],
-        ),
+      child: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Search'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.info_outline_rounded, size: 20),
+          ),
+        ],
       ),
     );
   }

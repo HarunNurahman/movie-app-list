@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             elevation: 0,
             centerTitle: true,
-            
             backgroundColor: kprimaryColor,
             iconTheme: IconThemeData(color: whiteColor),
             titleTextStyle: whiteTextStyle.copyWith(
