@@ -1,5 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app_list/core/utils/img_url.dart';
 import 'package:movie_app_list/core/utils/style.dart';
+import 'package:movie_app_list/models/movie_model.dart';
+import 'package:movie_app_list/presentation/bloc/movie/movie_bloc.dart';
 import 'package:movie_app_list/presentation/pages/detail/detail-movie_page.dart';
 import 'package:movie_app_list/presentation/widgets/custom_search-bar.dart';
 import 'package:movie_app_list/presentation/widgets/movie-list_item.dart';
@@ -104,9 +109,9 @@ class HomePage extends StatelessWidget {
 
   Widget buildTabBarViewContent(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(
+      constraints: BoxConstraints(
         minHeight: 150,
-        maxHeight: 350,
+        maxHeight: MediaQuery.of(context).size.height * 0.75,
       ),
       child: buildTabBarView(context),
     );
@@ -115,19 +120,43 @@ class HomePage extends StatelessWidget {
   Widget buildTabBarView(BuildContext context) {
     return TabBarView(
       children: [
-        Container(
-          margin: const EdgeInsets.only(top: 24),
-          child: Wrap(
-            spacing: 13,
-            runSpacing: 18,
-            children: [
-              MovieListItem(imgUrl: 'assets/images/img_movie-1.png'),
-              MovieListItem(imgUrl: 'assets/images/img_movie-2.png'),
-              MovieListItem(imgUrl: 'assets/images/img_movie-3.png'),
-              MovieListItem(imgUrl: 'assets/images/img_movie-4.png'),
-              MovieListItem(imgUrl: 'assets/images/img_movie-5.png'),
-            ],
-          ),
+        BlocBuilder<MovieBloc, MovieState>(
+          builder: (context, state) {
+            if (state is MovieLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is MovieLoaded) {
+              List<MovieModel> movieList = state.movies;
+              return Container(
+                margin: const EdgeInsets.only(top: 24),
+                child: Wrap(
+                  runSpacing: 15,
+                  spacing: 15,
+                  children: movieList
+                      .map(
+                        (e) => ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: CachedNetworkImage(
+                            imageUrl: imgUrl + e.posterPath!,
+                            height: 150,
+                            width: 100,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              );
+            }
+
+            if (state is MovieFailed) {
+              return Center(
+                child: Text(state.errorMessage, style: whiteTextStyle),
+              );
+            }
+
+            return Container();
+          },
         ),
         Center(child: Text('Upcoming', style: whiteTextStyle)),
         Center(child: Text('Top Rated', style: whiteTextStyle)),

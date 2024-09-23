@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app_list/core/utils/style.dart';
+import 'package:movie_app_list/presentation/bloc/bloc_observer.dart';
 import 'package:movie_app_list/presentation/bloc/dashboard/dashboard_bloc.dart';
+import 'package:movie_app_list/presentation/bloc/movie/movie_bloc.dart';
 import 'package:movie_app_list/presentation/pages/splash/splash_page.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  Bloc.observer = SimpleBlocObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,9 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => DashboardBloc(),
-        ),
+        BlocProvider(create: (context) => DashboardBloc()),
+        BlocProvider(create: (context) => MovieBloc()..add(GetNowPlaying())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

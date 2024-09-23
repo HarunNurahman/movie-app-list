@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MovieListItem extends StatelessWidget {
@@ -8,10 +9,13 @@ class MovieListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 100,
-      height: 145,
+      height: 245,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        image: DecorationImage(image: AssetImage(imgUrl), fit: BoxFit.cover),
+        image: DecorationImage(
+          image: CachedNetworkImageProvider(imgUrl),
+          fit: BoxFit.fitHeight,
+        ),
       ),
     );
   }

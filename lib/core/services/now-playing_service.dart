@@ -1,20 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:movie_app_list/core/utils/api_key.dart';
 import 'package:movie_app_list/core/utils/base_url.dart';
-import 'package:movie_app_list/models/now-playing_model.dart';
+import 'package:movie_app_list/models/movie_model.dart';
 
 class NowPlayingService {
   final dio = Dio();
-  Future<NowPlayingModel> getNowPlaying() async {
+  Future<List<MovieModel>> getNowPlaying() async {
     try {
-      final response = await dio.get(
-        '$baseUrl/now_playing?api_key=$apiKey&page=1',
-      );
-
+      final response = await dio.get('$baseUrl/now_playing?api_key=$apiKey');
       if (response.statusCode == 200) {
-        return NowPlayingModel.fromJson(response.data);
+        return (response.data['results'] as List)
+            .map((e) => MovieModel.fromJson(e))
+            .toList();
       } else {
-        throw Exception(response.statusMessage);
+        return [];
       }
     } catch (e) {
       throw Exception(e);
