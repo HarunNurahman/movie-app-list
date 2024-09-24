@@ -3,12 +3,13 @@ import 'package:movie_app_list/core/utils/api_key.dart';
 import 'package:movie_app_list/core/utils/base_url.dart';
 import 'package:movie_app_list/models/movie_model.dart';
 
-class NowPlayingService {
-  final dio = Dio();
-  Future<List<MovieModel>> getNowPlaying() async {
+class TopRatedService {
+  final Dio dio = Dio();
+
+  Future<List<MovieModel>> getTopRated() async {
     try {
       final response = await dio.get(
-        '$baseUrl/now_playing',
+        '$baseUrl/top_rated',
         queryParameters: {'api_key': apiKey},
       );
       if (response.statusCode == 200) {

@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app_list/core/utils/style.dart';
 import 'package:movie_app_list/presentation/bloc/bloc_observer.dart';
 import 'package:movie_app_list/presentation/bloc/dashboard/dashboard_bloc.dart';
-import 'package:movie_app_list/presentation/bloc/movie/movie_bloc.dart';
+import 'package:movie_app_list/presentation/bloc/now_playing/now_playing_bloc.dart';
+import 'package:movie_app_list/presentation/bloc/top_rated/top_rated_bloc.dart';
+import 'package:movie_app_list/presentation/bloc/upcoming/upcoming_bloc.dart';
 import 'package:movie_app_list/presentation/pages/splash/splash_page.dart';
 
 void main() {
@@ -21,7 +23,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => DashboardBloc()),
-        BlocProvider(create: (context) => MovieBloc()..add(GetNowPlaying())),
+        BlocProvider(create: (context) => NowPlaying()..add(GetNowPlaying())),
+        BlocProvider(create: (context) => UpcomingBloc()..add(GetUpcoming())),
+        BlocProvider(create: (context) => TopRatedBloc()..add(GetTopRated())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

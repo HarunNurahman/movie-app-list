@@ -1,13 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:movie_app_list/core/utils/img_url.dart';
 import 'package:movie_app_list/core/utils/style.dart';
 import 'package:movie_app_list/models/movie_model.dart';
-import 'package:movie_app_list/presentation/bloc/movie/movie_bloc.dart';
+import 'package:movie_app_list/presentation/bloc/now_playing/now_playing_bloc.dart';
+import 'package:movie_app_list/presentation/bloc/top_rated/top_rated_bloc.dart';
+import 'package:movie_app_list/presentation/bloc/upcoming/upcoming_bloc.dart';
 import 'package:movie_app_list/presentation/pages/detail/detail-movie_page.dart';
 import 'package:movie_app_list/presentation/widgets/custom_search-bar.dart';
-import 'package:movie_app_list/presentation/widgets/movie-list_item.dart';
 import 'package:movie_app_list/presentation/widgets/top-movie_item.dart';
 
 List<String> _tabs = ['Now Playing', 'Upcoming', 'Top Rated'];
@@ -111,56 +113,133 @@ class HomePage extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: 150,
-        maxHeight: MediaQuery.of(context).size.height * 0.75,
+        maxHeight: MediaQuery.of(context).size.height * 0.65,
       ),
       child: buildTabBarView(context),
     );
   }
 
   Widget buildTabBarView(BuildContext context) {
-    return TabBarView(
-      children: [
-        BlocBuilder<MovieBloc, MovieState>(
-          builder: (context, state) {
-            if (state is MovieLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+    return Container(
+      margin: const EdgeInsets.only(top: 24),
+      child: TabBarView(
+        children: [
+          // Now playing
+          BlocBuilder<NowPlaying, NowPlayingState>(
+            builder: (context, state) {
+              if (state is NowPlayingLoading) {
+                return Center(
+                  child: CircularProgressIndicator(color: whiteColor),
+                );
+              }
 
-            if (state is MovieLoaded) {
-              List<MovieModel> movieList = state.movies;
-              return Container(
-                margin: const EdgeInsets.only(top: 24),
-                child: Wrap(
-                  runSpacing: 15,
-                  spacing: 15,
-                  children: movieList
-                      .map(
-                        (e) => ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: CachedNetworkImage(
-                            imageUrl: imgUrl + e.posterPath!,
-                            height: 150,
-                            width: 100,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              );
-            }
+              if (state is NowPlayingLoaded) {
+                List<MovieModel> movieList = state.movies;
+                return MasonryGridView.count(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: movieList.length = 9,
+                  itemBuilder: (context, index) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: CachedNetworkImage(
+                        imageUrl: imgUrl + movieList[index].posterPath!,
+                        fit: BoxFit.cover,
+                        height: 150,
+                        width: 100,
+                      ),
+                    );
+                  },
+                );
+              }
 
-            if (state is MovieFailed) {
-              return Center(
-                child: Text(state.errorMessage, style: whiteTextStyle),
-              );
-            }
+              if (state is NowPlayingFailed) {
+                return Center(child: Text(state.errorMessage));
+              }
 
-            return Container();
-          },
-        ),
-        Center(child: Text('Upcoming', style: whiteTextStyle)),
-        Center(child: Text('Top Rated', style: whiteTextStyle)),
-      ],
+              return Container();
+            },
+          ),
+
+          // Upcoming
+          BlocBuilder<UpcomingBloc, UpcomingState>(
+            builder: (context, state) {
+              if (state is UpcomingLoading) {
+                return Center(
+                  child: CircularProgressIndicator(color: whiteColor),
+                );
+              }
+
+              if (state is UpcomingLoaded) {
+                List<MovieModel> movieList = state.movies;
+                return MasonryGridView.count(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: movieList.length = 9,
+                  itemBuilder: (context, index) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: CachedNetworkImage(
+                        imageUrl: imgUrl + movieList[index].posterPath!,
+                        fit: BoxFit.cover,
+                        height: 150,
+                        width: 100,
+                      ),
+                    );
+                  },
+                );
+              }
+
+              if (state is UpcomingFailed) {
+                return Center(child: Text(state.errorMessage));
+              }
+              return Container();
+            },
+          ),
+          
+          // Top rated
+          BlocBuilder<TopRatedBloc, TopRatedState>(
+            builder: (context, state) {
+              if (state is TopRatedLoading) {
+                return Center(
+                  child: CircularProgressIndicator(color: whiteColor),
+                );
+              }
+
+              if (state is TopRatedLoaded) {
+                List<MovieModel> movieList = state.movies;
+                return MasonryGridView.count(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: movieList.length = 9,
+                  itemBuilder: (context, index) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: CachedNetworkImage(
+                        imageUrl: imgUrl + movieList[index].posterPath!,
+                        fit: BoxFit.cover,
+                        height: 150,
+                        width: 100,
+                      ),
+                    );
+                  },
+                );
+              }
+
+              if (state is TopRatedFailed) {
+                return Center(child: Text(state.errorMessage));
+              }
+              return Container();
+            },
+          )
+        ],
+      ),
     );
   }
 }
